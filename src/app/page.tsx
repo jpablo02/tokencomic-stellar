@@ -1,10 +1,11 @@
 "use client";
 
+import React from "react";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
-import { MintNFT } from './mint-nft'
+import { MintNFT } from "./mint-nft";
 
 function App() {
-  const account = useAccount();
+  const { address, isConnected } = useAccount();
   const { connectors, connect, status, error } = useConnect();
   const { disconnect } = useDisconnect();
 
@@ -12,7 +13,6 @@ function App() {
     <>
       <div>
         <h2>Account</h2>
-
         <div className="card bg-base-100 w-96 shadow-xl">
           <figure>
             <img
@@ -28,29 +28,23 @@ function App() {
             </div>
           </div>
         </div>
-
         <div>
-          status: {account.status}
+          status: {isConnected ? "connected" : "disconnected"}
           <br />
-          addresses: {JSON.stringify(account.addresses)}
-          <br />
-          chainId: {account.chainId}
+          address: {address}
         </div>
-
-        <MintNFT />
-
-        {account.status === "connected" && (
+        {isConnected && <MintNFT />}
+        {isConnected && (
           <button type="button" onClick={() => disconnect()}>
             Disconnect
           </button>
         )}
       </div>
-
       <div>
         <h2>Connect</h2>
         {connectors.map((connector) => (
           <button
-            key={connector.uid}
+            key={connector.id}
             onClick={() => connect({ connector })}
             type="button"
           >
@@ -58,10 +52,8 @@ function App() {
           </button>
         ))}
         <div>{status}</div>
-        <div>{error?.message}</div>
+        {error && <div>{error.message}</div>}
       </div>
-
-      
     </>
   );
 }
