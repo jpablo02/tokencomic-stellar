@@ -10,51 +10,57 @@ function App() {
   const { disconnect } = useDisconnect();
 
   return (
-    <>
-      <div>
-        <h2>Account</h2>
-        <div className="card bg-base-100 w-96 shadow-xl">
-          <figure>
-            <img
-              src="https://bafybeifcr5flcvjqptfoma4zaq2qtd4ca3upbwvtmyia6bhzk2lwxvmxbi.ipfs.dweb.link/galletaok.png"
-              alt="Fortune Cookies"
-            />
-          </figure>
-          <div className="card-body">
-            <h2 className="card-title">Fortune Cookie</h2>
-            <p>Tke one daily</p>
-            <div className="card-actions justify-end">
-              <button className="btn btn-primary">Break a Cookie</button>
+
+    <><div className="text-center">
+      <h2 className="text-3xl font-bold mb-4">Connect</h2>
+      {connectors.map((connector) => (
+        <button
+          key={connector.id}
+          onClick={() => connect({ connector })}
+          type="button"
+          className="btn btn-outline mb-2"
+        >
+          {connector.name}
+        </button>
+      ))}
+      <div>{status}</div>
+      {error && <div>{error.message}</div>}
+    </div><div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <div className="text-center">
+          <h2 className="text-3xl font-bold text-red-500 mb-4">Account</h2>
+          <div className="card bg-base-100 w-96 shadow-xl mx-auto mb-4">
+            <figure>
+              <img
+                src="http://chocolate-legislative-lamprey-152.mypinata.cloud/ipfs/QmZZF8tSNEbijgtKc3nyV2zMDXysdid3Joakkyuo7H1nac"
+                alt="Fortune Cookies"
+                className="w-full h-auto" />
+            </figure>
+            <div className="card-body">
+              <h2 className="card-title">Fortune Cookie</h2>
+              <p>Take one daily</p>
+              <div className="card-actions justify-end">
+                <button className="btn btn-primary">Break a Cookie</button>
+              </div>
             </div>
           </div>
+          <div className="mb-4">
+            status: {isConnected ? "connected" : "disconnected"}
+            <br />
+            address: {address}
+          </div>
+          {isConnected && <MintNFT />}
+          {isConnected && (
+            <button
+              type="button"
+              onClick={() => disconnect()}
+              className="btn btn-secondary mb-4"
+            >
+              Disconnect
+            </button>
+          )}
         </div>
-        <div>
-          status: {isConnected ? "connected" : "disconnected"}
-          <br />
-          address: {address}
-        </div>
-        {isConnected && <MintNFT />}
-        {isConnected && (
-          <button type="button" onClick={() => disconnect()}>
-            Disconnect
-          </button>
-        )}
-      </div>
-      <div>
-        <h2>Connect</h2>
-        {connectors.map((connector) => (
-          <button
-            key={connector.id}
-            onClick={() => connect({ connector })}
-            type="button"
-          >
-            {connector.name}
-          </button>
-        ))}
-        <div>{status}</div>
-        {error && <div>{error.message}</div>}
-      </div>
-    </>
+
+      </div></>
   );
 }
 
