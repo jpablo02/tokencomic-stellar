@@ -10,30 +10,33 @@ function App() {
   const { disconnect } = useDisconnect();
 
   return (
+    <>
+      <div className="w-full text-center bg-black p-4">
+        <h2 className="text-3xl font-bold mb-4 text-yellow-500">Connect</h2>
+        {connectors.map((connector) => (
+          <button
+            key={connector.id}
+            onClick={() => connect({ connector })}
+            type="button"
+            className="btn btn-outline mb-2"
+          >
+            {connector.name}
+          </button>
+        ))}
+        <div>{status}</div>
+        {error && <div>{error.message}</div>}
+      </div>
 
-    <><div className="text-center">
-      <h2 className="text-3xl font-bold mb-4">Connect</h2>
-      {connectors.map((connector) => (
-        <button
-          key={connector.id}
-          onClick={() => connect({ connector })}
-          type="button"
-          className="btn btn-outline mb-2"
-        >
-          {connector.name}
-        </button>
-      ))}
-      <div>{status}</div>
-      {error && <div>{error.message}</div>}
-    </div><div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <div className="text-center">
+      <div className="flex items-center justify-center min-h-screen bg-gray-100 w-full">
+        <div className="text-center w-full max-w-4xl">
           <h2 className="text-3xl font-bold text-red-500 mb-4">Account</h2>
-          <div className="card bg-base-100 w-96 shadow-xl mx-auto mb-4">
+          <div className="card bg-base-100 w-full max-w-md shadow-xl mx-auto mb-4">
             <figure>
               <img
                 src="http://chocolate-legislative-lamprey-152.mypinata.cloud/ipfs/QmZZF8tSNEbijgtKc3nyV2zMDXysdid3Joakkyuo7H1nac"
                 alt="Fortune Cookies"
-                className="w-full h-auto" />
+                className="w-full h-auto" 
+              />
             </figure>
             <div className="card-body">
               <h2 className="card-title">Fortune Cookie</h2>
@@ -59,8 +62,8 @@ function App() {
             </button>
           )}
         </div>
-
-      </div></>
+      </div>
+    </>
   );
 }
 

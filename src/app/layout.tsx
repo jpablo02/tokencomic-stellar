@@ -22,7 +22,7 @@ export default function RootLayout(props: { children: ReactNode }) {
   )
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} w-full`}>
         <Providers initialState={initialState}>{props.children}</Providers>
       </body>
     </html>
