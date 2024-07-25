@@ -11,20 +11,24 @@ function App() {
 
   return (
     <>
-      <div className="w-full text-center bg-black p-4">
-        <h2 className="text-3xl font-bold mb-4 text-yellow-500">Connect</h2>
-        {connectors.map((connector) => (
-          <button
-            key={connector.id}
-            onClick={() => connect({ connector })}
-            type="button"
-            className="btn btn-outline mb-2"
-          >
-            {connector.name}
-          </button>
-        ))}
-        <div>{status}</div>
-        {error && <div>{error.message}</div>}
+      <div className="w-full text-center bg-black p-6 shadow-lg rounded-md mb-6">
+        <h2 className="text-3xl font-bold mb-6 text-yellow-400 uppercase">
+          Connect
+        </h2>
+        <div className="space-y-2">
+          {connectors.map((connector) => (
+            <button
+              key={connector.id}
+              onClick={() => connect({ connector })}
+              type="button"
+              className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold py-2 px-4 rounded-lg transition duration-300 ease-in-out"
+            >
+              {connector.name}
+            </button>
+          ))}
+        </div>
+        <div className="mt-4 text-sm text-gray-400">{status}</div>
+        {error && <div className="text-red-500 mt-2">{error.message}</div>}
       </div>
 
       <div className="flex items-center justify-center min-h-screen bg-gray-100 w-full">
@@ -35,7 +39,7 @@ function App() {
               <img
                 src="http://chocolate-legislative-lamprey-152.mypinata.cloud/ipfs/QmZZF8tSNEbijgtKc3nyV2zMDXysdid3Joakkyuo7H1nac"
                 alt="Fortune Cookies"
-                className="w-full h-auto" 
+                className="w-full h-auto"
               />
             </figure>
             <div className="card-body">
