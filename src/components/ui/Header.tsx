@@ -10,9 +10,9 @@ const Header = () => {
             Pablodrum <span className="text-accent-DEFALUT">.</span>
           </h1>
         </Link>
-        {/*sektop nav*/}
+        {/*dektop nav*/}
 
-        
+
       </div>
     </header>
   );
