@@ -1,5 +1,11 @@
 import Link from "next/link";
 import { Button } from "./button";
+//components
+
+import Nav from "./Nav";
+
+
+
 const Header = () => {
   return (
     <header className="py-8 xl:py-12 text-white bg-pink-50/20">
@@ -11,6 +17,7 @@ const Header = () => {
           </h1>
         </Link>
         {/*dektop nav*/}
+        <Nav />
 
 
       </div>
