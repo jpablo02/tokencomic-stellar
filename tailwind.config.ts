@@ -28,6 +28,23 @@ const config = {
       primary: "var(--font-jetbrainsMono)",
     },
     extend: {
+
+      colors:{
+        primary:'#1c1c22',
+        accent:{
+          DEFALUT:"#00ff99",
+          hover:"#00e187",
+          
+        }
+
+      
+
+      },
+
+
+
+
+
       keyframes: {
         "accordion-down": {
           from: { height: "0" },

@@ -7,6 +7,7 @@ import { cookieToInitialState } from 'wagmi'
 import { getConfig } from '../wagmi'
 import { Providers } from './providers'
 import { JetBrains_Mono } from 'next/font/google'
+import Header from '@/components/ui/Header'
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
@@ -30,6 +31,7 @@ export default function RootLayout(props: { children: ReactNode }) {
   return (
     <html lang="en">
       <body className={`${jetbrainsMono.variable} w-full`}>
+        <Header />
         <Providers initialState={initialState}>{props.children}</Providers>
       </body>
     </html>
