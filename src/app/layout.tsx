@@ -4,11 +4,18 @@ import { Inter } from 'next/font/google'
 import { headers } from 'next/headers'
 import { type ReactNode } from 'react'
 import { cookieToInitialState } from 'wagmi'
-
 import { getConfig } from '../wagmi'
 import { Providers } from './providers'
+import { JetBrains_Mono } from 'next/font/google'
 
-const inter = Inter({ subsets: ['latin'] })
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  weight:["100","200","300","400","500","600","700","800"],
+  variable: '--font-jetbrainsMono',
+})
+
+
+// const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Create Wagmi',
@@ -22,7 +29,7 @@ export default function RootLayout(props: { children: ReactNode }) {
   )
   return (
     <html lang="en">
-      <body className={`${inter.className} w-full`}>
+      <body className={`${jetbrainsMono.variable} w-full`}>
         <Providers initialState={initialState}>{props.children}</Providers>
       </body>
     </html>

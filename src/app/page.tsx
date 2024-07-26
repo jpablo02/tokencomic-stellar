@@ -31,7 +31,13 @@ function App() {
         {error && <div className="text-red-500 mt-2">{error.message}</div>}
       </div>
 
-      <div className="flex items-center justify-center min-h-screen bg-gray-100 w-full">
+      <main>
+        
+        homepage
+        
+        </main>
+
+      {/* <div className="flex items-center justify-center min-h-screen bg-gray-100 w-full">
         <div className="text-center w-full max-w-4xl">
           <h2 className="text-3xl font-bold text-red-500 mb-4">Account</h2>
           <div className="card bg-base-100 w-full max-w-md shadow-xl mx-auto mb-4">
@@ -66,7 +72,7 @@ function App() {
             </button>
           )}
         </div>
-      </div>
+      </div> */}
     </>
   );
 }
