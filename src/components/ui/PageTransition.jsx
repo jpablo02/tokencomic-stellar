@@ -1,8 +1,10 @@
 import React from 'react'
 
-const PageTransition = () => {
+const PageTransition = ({children}) => {
   return (
-    <div>PageTransition</div>
+    <div>
+      {children}
+    </div>
   )
 }
 

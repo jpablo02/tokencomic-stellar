@@ -8,6 +8,8 @@ import { getConfig } from '../wagmi'
 import { Providers } from './providers'
 import { JetBrains_Mono } from 'next/font/google'
 import Header from '@/components/ui/Header'
+import PageTransition from '@/components/ui/PageTransition'
+import React, { PropsWithChildren } from 'react';
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
@@ -32,7 +34,11 @@ export default function RootLayout(props: { children: ReactNode }) {
     <html lang="en">
       <body className={`${jetbrainsMono.variable} w-full`}>
         <Header />
+        <PageTransition>
         <Providers initialState={initialState}>{props.children}</Providers>
+
+        </PageTransition>
+        
       </body>
     </html>
   )
