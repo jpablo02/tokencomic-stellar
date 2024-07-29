@@ -32,7 +32,7 @@ export default function RootLayout(props: { children: ReactNode }) {
   )
   return (
     <html lang="en">
-      <body className={`${jetbrainsMono.variable} w-full`}>
+      <body className={`${jetbrainsMono.variable} `}>
         <Header />
         <PageTransition>
         <Providers initialState={initialState}>{props.children}</Providers>
