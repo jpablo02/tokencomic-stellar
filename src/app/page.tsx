@@ -12,24 +12,9 @@ function App() {
   return (
     <>
       <div className="w-full text-center bg-[#abf6ff] p-6 shadow-lg rounded-md mb-6">
-        <h2 className="text-3xl font-bold mb-6 text-yellow-400 uppercase">
-          Connect
-        </h2>
-        <div className="space-y-2">
-          {connectors.map((connector) => (
-            <button
-              key={connector.id}
-              onClick={() => connect({ connector })}
-              type="button"
-              className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold py-2 px-4 rounded-lg transition duration-300 ease-in-out"
-            >
-              {connector.name}
-            </button>
-          ))}
-        </div>
-        <div className="mt-4 text-sm text-gray-400">{status}</div>
-        {error && <div className="text-red-500 mt-2">{error.message}</div>}
-
+        
+      
+        
         <main>
           homepage
           <div className="flex items-center justify-center min-h-screen w-full">
