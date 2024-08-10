@@ -1,8 +1,9 @@
 "use client";
-
+import Photo from "../components/ui/Photo";
 import React from "react";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { MintNFT } from "./mint-nft";
+import NftCards from "@/components/ui/NftCards";
 
 function App() {
   const { address, isConnected } = useAccount();
@@ -10,52 +11,29 @@ function App() {
   const { disconnect } = useDisconnect();
 
   return (
-    <>
-      <div className="w-full text-center bg-[#abf6ff] p-6 shadow-lg rounded-md mb-6">
-        
-      
-        
-        <main>
-          homepage
-          <div className="flex items-center justify-center min-h-screen w-full">
-            <div className="text-center w-full max-w-4xl">
-              <h2 className="text-3xl font-bold text-red-500 mb-4">Account</h2>
-              <div className="card bg-base-100 w-full max-w-md shadow-xl mx-auto mb-4">
-                <figure>
-                  <img
-                    src="http://chocolate-legislative-lamprey-152.mypinata.cloud/ipfs/QmZZF8tSNEbijgtKc3nyV2zMDXysdid3Joakkyuo7H1nac"
-                    alt="Fortune Cookies"
-                    className="w-full h-auto"
-                  />
-                </figure>
-                <div className="card-body">
-                  <h2 className="card-title">Fortune Cookie</h2>
-                  <p>Take one daily</p>
-                  <div className="card-actions justify-end">
-                    <button className="btn btn-primary">Break a Cookie</button>
-                  </div>
-                </div>
-              </div>
-              <div className="mb-4">
-                status: {isConnected ? "connected" : "disconnected"}
-                <br />
-                address: {address}
-              </div>
-              {isConnected && <MintNFT />}
-              {isConnected && (
-                <button
-                  type="button"
-                  onClick={() => disconnect()}
-                  className="btn btn-secondary mb-4"
-                >
-                  Disconnect
-                </button>
-              )}
-            </div>
+    <section className="h-full">
+      <div className="container mx-auto h-full">
+        <div className="bg-slate-300 flex flex-col xl:flex-row items-center justify-between xl:pt-6 xl:pb-6">
+          {/*text */}
+          <div className="text-center xl:text-left order-2 xl:order-none pr-10">
+            <span className="text-2xl top-30 left-0 ">WEB 3 FUNDATION</span>
+            <h1 className="h1 mb-4">
+              {"Pets"}
+              <br />
+              <span className="text-accent">Safe</span>
+            </h1>
+            <p className="max-w-[500px] mb-9 text-white/80">
+              I excel at crafting elegant digital experiences and i am
+              proficient in various programming languages and technologies
+            </p>
           </div>
-        </main>
+          {/*NFT */}
+          <div>
+            <NftCards />
+          </div>
+        </div>
       </div>
-    </>
+    </section>
   );
 }
 
