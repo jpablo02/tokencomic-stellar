@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import path from "path";
+import { ConnectButtons } from "./ConectButtons";
 
 const links = [
   {
@@ -44,6 +45,9 @@ const Nav = () => {
           </Link>
         );
       })}
+      <ConnectButtons />
+
+      
     </nav>
   );
 };
