@@ -7,14 +7,18 @@ import MobileNav from "./MobileNav";
 
 const Header = () => {
   return (
-    <header className="py-4 xl:py-6 text-white bg-pink-50/20">
+    <header className="py-4 xl:py-6 text-white bg-accent">
       <div className="container mx-auto flex justify-between items-center">
         {/*logo*/}
-        <Link href="/src/public/drum.png">
-          <h1 className="text 4-xl font-semibold">
-            PetsSafe <span className="text-accent-DEFALUT">.</span>
+        <Link href="/">
+        
+          <h1 className="text-4xl font-semibold">
+          <span className="text-black">.</span>
+            PetSafe<span className="text-yellow-400">.</span>
           </h1>
         </Link>
+
+        
 
         {/*dektop nav*/}
         <div className="hidden xl:flex items-center gap-8">
