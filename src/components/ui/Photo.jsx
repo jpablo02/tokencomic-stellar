@@ -5,7 +5,7 @@ import Image from "next/image";
 
 const Photo = () => {
   return (
-    <div className="w-full h-full absolute">
+    <div className="relative w-full h-full">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{
@@ -14,14 +14,16 @@ const Photo = () => {
         }}
       >
         <motion.svg
-          className="w-[400px] xl:w-[506px] h-[400px] xl:h-[506px] xl:pr-20 absolute"
+          className="w-[400px] xl:w-[506px] h-[400px] xl:h-[506px] absolute top-0 left-0"
           fill="transparent"
           viewBox="0 0 506 506"
           xmlns="http://www.w3.org/2000/svg"
-        ></motion.svg>
+        >
+          
+        </motion.svg>
 
         <motion.div
-          className="w-[400px] h-[400px] xl:w-[506px] xl:h-[506px] mix-blend-lighten xl:pr-20 relative"
+          className="relative w-[400px] h-[400px] xl:w-[506px] xl:h-[506px] mix-blend-lighten xl:pr-20"
           initial={{ opacity: 0 }}
           animate={{
             opacity: 1,
@@ -31,7 +33,6 @@ const Photo = () => {
           <div className="card bg-base-100 w-full max-w-md shadow-xl mx-auto mb-4">
             <Image
               src="http://chocolate-legislative-lamprey-152.mypinata.cloud/ipfs/QmZZF8tSNEbijgtKc3nyV2zMDXysdid3Joakkyuo7H1nac"
-              // className="w-full h-auto"
               priority
               quality={100}
               width={506}

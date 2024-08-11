@@ -9,7 +9,7 @@ import { Providers } from "./providers";
 import { JetBrains_Mono } from "next/font/google";
 import Header from "@/components/ui/Header";
 import PageTransition from "@/components/ui/PageTransition";
-import React, { PropsWithChildren } from "react";
+import React from "react";
 import StairTransition from "@/components/ui/StairTransition";
 
 const jetbrainsMono = JetBrains_Mono({
@@ -17,8 +17,6 @@ const jetbrainsMono = JetBrains_Mono({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800"],
   variable: "--font-jetbrainsMono",
 });
-
-// const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: "Create Wagmi",
@@ -33,13 +31,13 @@ export default function RootLayout(props: { children: ReactNode }) {
   return (
     <html lang="en">
       <body className={`${jetbrainsMono.variable} `}>
-        
-        
         <StairTransition />
         <PageTransition>
-          <Providers initialState={initialState}><Header />{props.children}</Providers>          
+          <Providers initialState={initialState}>
+            <Header />
+            {props.children}
+          </Providers>          
         </PageTransition>
-        
       </body>
     </html>
   );

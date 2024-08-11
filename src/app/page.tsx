@@ -23,49 +23,50 @@ function App() {
   ];
 
   return (
-    <section className="h-full bg-accent">
-      <div className="container mx-auto h-full">
-        <div className="bg-accent flex flex-col xl:flex-row items-center justify-between xl:pt-6 xl:pb-6">
-          {/*text */}
-          
+    <section className="">
+      <section className="h-full bg-accent ">
+        <div className="container mx-auto h-full ">
+          <div className="bg-accent flex flex-col xl:flex-row items-center justify-between xl:pt-6 xl:pb-6 ">
+            {/*text */}
+
             <div className="text-center xl:text-left order-2 xl:order-none pr-0">
               <span className="text-2xl top-30 left-0 ">WEB 3 FUNDATION</span>
               <h1 className="h1 mb-4">
                 {"Pet"}
                 <br />
-                <div className="bg-yellow-500 inline-block rounded-2xl">
+                <div className="bg-yellow-400 inline-block rounded-2xl">
                   <span className="text-black">Safe</span>
                 </div>
               </h1>
               <h2 className=" text-2xl max-w-[500px] mb-9 text-white/80">
                 The first animal aid foundation based on NFTS
               </h2>
-            
 
-            {/*boton */}
+              {/*boton */}
 
-            <Button className="uppercase flex items-center gap-2">
-              {links.map((link, index) => {
-                return (
-                  <Link
-                    href={link.path}
-                    key={index}
-                    className={`${link.path === pathname && " border-b-2 border-accent"}
+              <Button className="uppercase flex items-center gap-2">
+                {links.map((link, index) => {
+                  return (
+                    <Link
+                      href={link.path}
+                      key={index}
+                      className={`${link.path === pathname && " border-b-2 border-accent"}
               capitalize font-medium hover:text-black transition-all`}
-                  >
-                    {link.name}
-                  </Link>
-                );
-              })}
-            </Button>
-          </div>
+                    >
+                      {link.name}
+                    </Link>
+                  );
+                })}
+              </Button>
+            </div>
 
-          {/*NFT */}
-          <div>
-            <NftCards />
+            {/*NFT */}
+            <div className="w-full max-w-md mx-auto">
+              <NftCards />
+            </div>
           </div>
         </div>
-      </div>
+      </section>
     </section>
   );
 }
