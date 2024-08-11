@@ -17,18 +17,7 @@ const Nav = () => {
   console.log(pathname);
   return (
     <nav className="flex gap-8 items-center">
-      {links.map((link, index) => {
-        return (
-          <Link
-            href={link.path}
-            key={index}
-            className={`${link.path === pathname && " border-b-2 border-accent"}
-              capitalize font-medium hover:text-black transition-all`}
-          >
-            {link.name}
-          </Link>
-        );
-      })}
+      
 
       <ConnectButtons />
     </nav>
