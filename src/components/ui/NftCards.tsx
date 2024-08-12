@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { MintNFT } from "../../app/mint-nft";
 import AnimatedCircle from "../ui/AnimatedCircle"; // Ajusta la ruta según sea necesario
+import { Button } from "./button";
 
 const NftCards = () => {
   return (
@@ -9,81 +10,17 @@ const NftCards = () => {
       {/* Card 1 */}
       <div className="relative bg-base-100 w-full max-w-md shadow-xl max-h-fit mb-4">
         <AnimatedCircle className="absolute inset-0 z-0 w-full h-full" />
-        <Image
-          src="https://bafybeihv6rzseuad62u67gtsihwwlx6mhia22cxudc3i7xia4gka4mzaxi.ipfs.dweb.link/12.png"
-          priority
-          quality={100}
-          width={506}
-          height={506}
-          alt="Image"
+        <iframe
+          src="https://bafybeiexjn4b7ewg2a7embuyrfooxqk7nsbkds3chcbqdgxkz3gbbybmuq.ipfs.dweb.link/1.png" // Ajusta la URL según la ruta de tu frame Frog
+          title="Frame 1"
+          width="100%"
+          height="400px" // Ajusta la altura según el tamaño de tu frame
+          frameBorder="0"
           className="object-contain relative z-10"
         />
         <div className="card-body relative z-10">
           <h2 className="card-title">Kiara</h2>
           <p>Mom</p>
-          <div className="card-actions justify-end">
-            <MintNFT /> {/* Botón Mint NFT */}
-          </div>
-        </div>
-      </div>
-
-      {/* Card 2 */}
-      <div className="relative bg-base-100 w-full max-w-md shadow-xl mx-auto mb-4">
-        <AnimatedCircle className="absolute inset-0 z-0 w-full h-full" />
-        <Image
-          src="https://bafybeihv6rzseuad62u67gtsihwwlx6mhia22cxudc3i7xia4gka4mzaxi.ipfs.dweb.link/13.png"
-          priority
-          quality={100}
-          width={506}
-          height={506}
-          alt="Description of image"
-          className="object-contain relative z-10"
-        />
-        <div className="card-body relative z-10">
-          <h2 className="card-title">Hassan</h2>
-          <p>The animal</p>
-          <div className="card-actions justify-end">
-            <MintNFT /> {/* Botón Mint NFT */}
-          </div>
-        </div>
-      </div>
-
-      {/* Card 3 */}
-      <div className="relative bg-base-100 w-full max-w-md shadow-xl mx-auto mb-4">
-        <AnimatedCircle className="absolute inset-0 z-0 w-full h-full" />
-        <Image
-          src="https://bafybeihv6rzseuad62u67gtsihwwlx6mhia22cxudc3i7xia4gka4mzaxi.ipfs.dweb.link/11.png"
-          priority
-          quality={100}
-          width={506}
-          height={506}
-          alt="Description of image"
-          className="object-contain relative z-10"
-        />
-        <div className="card-body relative z-10">
-          <h2 className="card-title">Chokee</h2>
-          <p>The tender</p>
-          <div className="card-actions justify-end">
-            <MintNFT /> {/* Botón Mint NFT */}
-          </div>
-        </div>
-      </div>
-
-      {/* Card 4 */}
-      <div className="relative bg-base-100 w-full max-w-md shadow-xl mx-auto mb-4">
-        <AnimatedCircle className="absolute inset-0 z-0 w-full h-full" />
-        <Image
-          src="https://bafybeihv6rzseuad62u67gtsihwwlx6mhia22cxudc3i7xia4gka4mzaxi.ipfs.dweb.link/10.png"
-          priority
-          quality={100}
-          width={506}
-          height={506}
-          alt="Description of image"
-          className="object-contain relative z-10"
-        />
-        <div className="card-body relative z-10">
-          <h2 className="card-title">Pepa</h2>
-          <p>The agile</p>
           <div className="card-actions justify-end">
             <MintNFT /> {/* Botón Mint NFT */}
           </div>
