@@ -4,17 +4,17 @@ import { MintNFT } from "../../app/mint-nft";
 import AnimatedCircle from "../ui/AnimatedCircle"; // Ajusta la ruta según sea necesario
 
 const images = [
-  "https://bafybeiexjn4b7ewg2a7embuyrfooxqk7nsbkds3chcbqdgxkz3gbbybmuq.ipfs.dweb.link/1.png",
-  "https://bafybeiexjn4b7ewg2a7embuyrfooxqk7nsbkds3chcbqdgxkz3gbbybmuq.ipfs.dweb.link/2.png",
-  "https://bafybeiexjn4b7ewg2a7embuyrfooxqk7nsbkds3chcbqdgxkz3gbbybmuq.ipfs.dweb.link/3.png",
-  "https://bafybeiexjn4b7ewg2a7embuyrfooxqk7nsbkds3chcbqdgxkz3gbbybmuq.ipfs.dweb.link/4.png",
-  "https://bafybeiexjn4b7ewg2a7embuyrfooxqk7nsbkds3chcbqdgxkz3gbbybmuq.ipfs.dweb.link/5.png",
-  "https://bafybeiexjn4b7ewg2a7embuyrfooxqk7nsbkds3chcbqdgxkz3gbbybmuq.ipfs.dweb.link/6.png",
-  "https://bafybeiexjn4b7ewg2a7embuyrfooxqk7nsbkds3chcbqdgxkz3gbbybmuq.ipfs.dweb.link/7.png",
-  // Agrega más URLs de imágenes aquí
+  "https://bafybeihaeqxsomey6atu77nvtqg7d7p6ycekstgweiostkwpknz6idujdi.ipfs.dweb.link/1.png",
+  "https://bafybeihaeqxsomey6atu77nvtqg7d7p6ycekstgweiostkwpknz6idujdi.ipfs.dweb.link/2.png",
+  "https://bafybeihaeqxsomey6atu77nvtqg7d7p6ycekstgweiostkwpknz6idujdi.ipfs.dweb.link/3.png",
+  "https://bafybeihaeqxsomey6atu77nvtqg7d7p6ycekstgweiostkwpknz6idujdi.ipfs.dweb.link/4.png",
+  "https://bafybeihaeqxsomey6atu77nvtqg7d7p6ycekstgweiostkwpknz6idujdi.ipfs.dweb.link/5.png",
+  "https://bafybeihaeqxsomey6atu77nvtqg7d7p6ycekstgweiostkwpknz6idujdi.ipfs.dweb.link/6.png",
+  "https://bafybeihaeqxsomey6atu77nvtqg7d7p6ycekstgweiostkwpknz6idujdi.ipfs.dweb.link/7.png",
+  
 ];
 
-const NftCards = () => {
+const NftCards3 = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handlePrev = () => {
@@ -46,8 +46,9 @@ const NftCards = () => {
           Prev
         </button>
         <div className="flex flex-col items-center">
-          {currentIndex === 5 && <MintNFT />} {/* Botón Mint NFT solo en la imagen #6 */}
+          {currentIndex === images.length - 1 && <MintNFT />} {/* Botón Mint NFT solo en la última imagen */}
         </div>
+        {/* Mostrar el botón Next solo si no estamos en la última imagen */}
         {currentIndex < images.length - 1 && (
           <button
             onClick={handleNext}
@@ -61,4 +62,4 @@ const NftCards = () => {
   );
 };
 
-export default NftCards;
+export default NftCards3;
