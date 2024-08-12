@@ -32,7 +32,7 @@ export const ConnectButtons = () => {
             <br />
             <span className="font-medium">Address:</span> {address}
           </div>
-          {isConnected && <MintNFT />}
+          {isConnected }
           <button
             type="button"
             onClick={() => disconnect()}

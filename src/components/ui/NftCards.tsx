@@ -1,64 +1,61 @@
-import React, { useState } from "react";
+import Link from "next/link";
 import Image from "next/image";
-import { MintNFT } from "../../app/mint-nft";
 import AnimatedCircle from "../ui/AnimatedCircle"; // Ajusta la ruta según sea necesario
 
 const images = [
-  "https://bafybeiexjn4b7ewg2a7embuyrfooxqk7nsbkds3chcbqdgxkz3gbbybmuq.ipfs.dweb.link/1.png",
-  "https://bafybeiexjn4b7ewg2a7embuyrfooxqk7nsbkds3chcbqdgxkz3gbbybmuq.ipfs.dweb.link/2.png",
-  "https://bafybeiexjn4b7ewg2a7embuyrfooxqk7nsbkds3chcbqdgxkz3gbbybmuq.ipfs.dweb.link/3.png",
-  "https://bafybeiexjn4b7ewg2a7embuyrfooxqk7nsbkds3chcbqdgxkz3gbbybmuq.ipfs.dweb.link/4.png",
-  "https://bafybeiexjn4b7ewg2a7embuyrfooxqk7nsbkds3chcbqdgxkz3gbbybmuq.ipfs.dweb.link/5.png",
-  "https://bafybeiexjn4b7ewg2a7embuyrfooxqk7nsbkds3chcbqdgxkz3gbbybmuq.ipfs.dweb.link/6.png",
-  "https://bafybeiexjn4b7ewg2a7embuyrfooxqk7nsbkds3chcbqdgxkz3gbbybmuq.ipfs.dweb.link/7.png",
-  // Agrega más URLs de imágenes aquí
+  {
+    src: "https://gateway.lighthouse.storage/ipfs/QmUhtUX8nD1vEJ9zB9PDTjvxWhyixSQGe71duo7KexXJyy/1.jpg",
+    title: "Chapter 1",
+    path: "/chapter1"
+  },
+  {
+    src: "https://gateway.lighthouse.storage/ipfs/bafybeih4g7jzd2e6cmyxtz7jvzhklrxdsyjchxgndtt7irdmupawo4gsrq/1.png",
+    title: "Chapter 2",
+    path: "/chapter2"
+  },
+  {
+    src: "https://bafybeihaeqxsomey6atu77nvtqg7d7p6ycekstgweiostkwpknz6idujdi.ipfs.dweb.link/1.png",
+    title: "Chapter 3",
+    path: "/chapter3"
+  },
+  {
+    src: "https://bafybeiexjn4b7ewg2a7embuyrfooxqk7nsbkds3chcbqdgxkz3gbbybmuq.ipfs.dweb.link/1.png",
+    title: "Chapter 4",
+    path: "/chapter4"
+  },
+  {
+    src: "https://bafybeihie6nphrd275hp4pxi5pubwrmbkanpgocnhnfmu7zp6bcemragae.ipfs.dweb.link/1.png",
+    title: "Chapter 5",
+    path: "/chapter5"
+  }
 ];
 
-const NftCards = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const handlePrev = () => {
-    setCurrentIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex === images.length - 1 ? prevIndex : prevIndex + 1));
-  };
-
+const MenuPage = () => {
   return (
     <div className="">
       <AnimatedCircle className="absolute inset-0 z-0 w-full h-full" />
       <div className="relative z-10">
-        <Image
-          src={images[currentIndex]}
-          width={1200}
-          height={630}
-          alt="NFT Image"
-          className="object-contain w-full h-auto"
-          layout="responsive"
-        />
-      </div>
-      <div className="card-body relative z-10 flex items-center justify-between mt-4">
-        <button
-          onClick={handlePrev}
-          className="bg-gray-800 text-white py-2 px-4 rounded-lg hover:bg-gray-600"
-        >
-          Prev
-        </button>
-        <div className="flex flex-col items-center">
-          {currentIndex === 5 && <MintNFT />} {/* Botón Mint NFT solo en la imagen #6 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+          {images.map((image, index) => (
+            <Link key={index} href={image.path} className="relative group block">
+              <Image
+                src={image.src}
+                width={600}
+                height={400}
+                alt={image.title}
+                className="object-cover w-full h-64 rounded-lg"
+                layout="responsive"
+              />
+              <div className="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white p-2 text-center rounded-b-lg hover:bg-orange-500 hover:text-black transition-colors duration-300">
+  {image.title}
+</div>
+
+            </Link>
+          ))}
         </div>
-        {currentIndex < images.length - 1 && (
-          <button
-            onClick={handleNext}
-            className="bg-gray-800 text-white py-2 px-4 rounded-lg hover:bg-gray-600"
-          >
-            Next
-          </button>
-        )}
       </div>
     </div>
   );
 };
 
-export default NftCards;
+export default MenuPage;

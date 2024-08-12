@@ -39,12 +39,15 @@ const NftCards2 = () => {
         />
       </div>
       <div className="card-body relative z-10 flex items-center justify-between mt-4">
-        <button
-          onClick={handlePrev}
-          className="bg-gray-800 text-white py-2 px-4 rounded-lg hover:bg-gray-600"
-        >
-          Prev
-        </button>
+        {/* Mostrar el botón Prev solo si no estamos en la primera imagen */}
+        {currentIndex > 0 && (
+          <button
+            onClick={handlePrev}
+            className="bg-gray-800 text-white py-2 px-4 rounded-lg hover:bg-gray-600"
+          >
+            Prev
+          </button>
+        )}
         <div className="flex flex-col items-center">
           {currentIndex === images.length - 1 && <MintNFT />} {/* Botón Mint NFT solo en la última imagen */}
         </div>

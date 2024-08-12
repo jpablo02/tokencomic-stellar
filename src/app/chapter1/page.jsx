@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
-import { MintNFT } from "../../app/mint-nft";
+import { MintNft1} from "../../app/mint-nft1.tsx";
 import NftCards1 from "@/components/ui/NftCards1";
 import path from "path";
 import { usePathname } from "next/navigation";

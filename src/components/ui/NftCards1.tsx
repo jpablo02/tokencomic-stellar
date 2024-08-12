@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import { MintNFT } from "../../app/mint-nft";
+import { MintNFT1 } from "../../app/mint-nft1";
 import AnimatedCircle from "../ui/AnimatedCircle"; // Ajusta la ruta según sea necesario
 
 const images = [
@@ -25,8 +25,8 @@ const NftCards1 = () => {
 
   return (
     <div className="">
-      <AnimatedCircle className="absolute inset-0 z-0 w-full h-full" />
-      <div className="relative z-10">
+      <AnimatedCircle className="absolute inset-0 z-10 w-full h-full" />
+      <div className="relative z-20">
         <Image
           src={images[currentIndex]}
           width={1200}
@@ -36,17 +36,18 @@ const NftCards1 = () => {
           layout="responsive"
         />
       </div>
-      <div className="card-body relative z-10 flex items-center justify-between mt-4">
-        <button
-          onClick={handlePrev}
-          className="bg-gray-800 text-white py-2 px-4 rounded-lg hover:bg-gray-600"
-        >
-          Prev
-        </button>
+      <div className="card-body relative z-30 flex items-center justify-between mt-4">
+        {currentIndex > 0 && (
+          <button
+            onClick={handlePrev}
+            className="bg-gray-800 text-white py-2 px-4 rounded-lg hover:bg-gray-600"
+          >
+            Prev
+          </button>
+        )}
         <div className="flex flex-col items-center">
-          {currentIndex === images.length - 1 && <MintNFT />} {/* Botón Mint NFT solo en la última imagen */}
+          {currentIndex === images.length - 1 && <MintNFT1 />} {/* Botón Mint NFT solo en la última imagen */}
         </div>
-        {/* Mostrar el botón Next solo si no estamos en la última imagen */}
         {currentIndex < images.length - 1 && (
           <button
             onClick={handleNext}
