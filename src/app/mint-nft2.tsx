@@ -1,14 +1,14 @@
 import * as React from "react";
 import { useAccount, useWriteContract } from "wagmi";
-import { abi } from "../app/chapter1/abi";
+import { abi } from "../app/chapter2/abi";
 import type { Address } from "viem";
 import { Button } from "@/components/ui/button";
 
 const uris = 
-  "https://chocolate-legislative-lamprey-152.mypinata.cloud/ipfs/QmW2qQuYi5EX5otSxhN16XpFDgDA4QE1weyuyxXVhQQvpw"
+  "https://bafybeielcfhff5xuelm7r44dacatzuud2z3rkwuksl7z2iejpu6sqxao7y.ipfs.dweb.link/"
 
 
-export function MintNFT1() {
+export function MintNFT2() {
   const { address } = useAccount();
   const tokenId = 0;
 
@@ -27,7 +27,7 @@ export function MintNFT1() {
       return;
     }
     writeContract({
-      address: "0x4329Eb272A511b97b2612312C253ec160a33B112",
+      address: "0x44Fa2D8064786B6238BbFC801de0AE710ADA16e8",
       abi,
       functionName: "safeMint",
       args: [address as Address,uris],
