@@ -19,7 +19,7 @@ const Header = () => {
           <Link href="/">
             <h1 className="text-4xl font-semibold ml-0">
               <span className="text-black">.</span>
-              PetSafe<span className="text-yellow-300">.</span>
+              Suspended<span className="text-orange-500">.</span>
             </h1>
           </Link>
         </div>

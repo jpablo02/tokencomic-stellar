@@ -23,10 +23,10 @@ function App() {
   ];
 
   return (
-    <section className="">
-      <section className="h-full bg-accent ">
+    <section className="justify-between">
+      <section className="h-full bg-[#1E293B] justify-between ">
         <div className="container mx-auto h-full ">
-          <div className="bg-accent flex flex-col xl:flex-row items-center justify-between xl:pt-6 xl:pb-6 ">
+          <div className="bg-[#1E293B] flex flex-col xl:flex-row items-center justify-between xl:pt-6 xl:pb-6 ">
             {/*text */}
 
             <div className="text-center xl:text-left order-2 xl:order-none pr-0">
