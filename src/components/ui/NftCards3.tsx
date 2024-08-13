@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { MintNFT } from "../../app/mint-nft";
 import AnimatedCircle from "../ui/AnimatedCircle"; // Ajusta la ruta según sea necesario
+import { MintNFT3 } from "@/app/mint-nft3";
 
 const images = [
   "https://bafybeihaeqxsomey6atu77nvtqg7d7p6ycekstgweiostkwpknz6idujdi.ipfs.dweb.link/1.png",
@@ -48,7 +49,7 @@ const NftCards3 = () => {
           </button>
         )}
         <div className="flex flex-col items-center">
-          {currentIndex === images.length - 1 && <MintNFT />} {/* Botón Mint NFT solo en la última imagen */}
+          {currentIndex === images.length - 1 && <MintNFT3 />} {/* Botón Mint NFT solo en la última imagen */}
         </div>
         {/* Mostrar el botón Next solo si no estamos en la última imagen */}
         {currentIndex < images.length - 1 && (
