@@ -3,6 +3,7 @@ import Image from "next/image";
 
 import AnimatedCircle from "../ui/AnimatedCircle"; // Ajusta la ruta según sea necesario
 import { MintNFT2 } from "@/app/mint-nft2";
+import { Button } from "./button";
 
 const images = [
   "https://gateway.lighthouse.storage/ipfs/bafybeih4g7jzd2e6cmyxtz7jvzhklrxdsyjchxgndtt7irdmupawo4gsrq/1.png",
@@ -44,7 +45,7 @@ const NftCards2 = () => {
         {currentIndex > 0 && (
           <button
             onClick={handlePrev}
-            className="bg-gray-800 text-white py-2 px-4 rounded-lg hover:bg-gray-600"
+            className="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600"
           >
             Prev
           </button>
@@ -56,7 +57,7 @@ const NftCards2 = () => {
         {currentIndex < images.length - 1 && (
           <button
             onClick={handleNext}
-            className="bg-gray-800 text-white py-2 px-4 rounded-lg hover:bg-gray-600"
+            className="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600"
           >
             Next
           </button>

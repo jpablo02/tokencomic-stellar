@@ -42,7 +42,7 @@ const NftCards5 = () => {
         {currentIndex > 0 && (
           <button
             onClick={handlePrev}
-            className="bg-gray-800 text-white py-2 px-4 rounded-lg hover:bg-gray-600"
+            className="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600"
           >
             Prev
           </button>
@@ -54,7 +54,7 @@ const NftCards5 = () => {
         {currentIndex < images.length - 1 && (
           <button
             onClick={handleNext}
-            className="bg-gray-800 text-white py-2 px-4 rounded-lg hover:bg-gray-600"
+            className="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600"
           >
             Next
           </button>

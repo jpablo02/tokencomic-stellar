@@ -34,7 +34,7 @@ function App() {
               <h1 className="h1 mb-4">
                 {"Pet"}
                 <br />
-                <div className="bg-yellow-400 inline-block rounded-2xl">
+                <div className="bg-orange-400 inline-block rounded-2xl">
                   <span className="text-black">Safe</span>
                 </div>
               </h1>
