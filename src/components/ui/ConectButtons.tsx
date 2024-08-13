@@ -21,7 +21,7 @@ export const ConnectButtons = () => {
         <button
           onClick={toggleDropdown}
           type="button"
-          className="bg-orange-400 hover:bg-black hover:text-white text-black font-semibold py-0 px-4 rounded-lg transition duration-300 ease-in-out"
+          className="bg-orange-400 hover:bg-black hover:text-gray-400 text-black font-semibold py-0 px-4 rounded-lg transition duration-300 ease-in-out"
         >
           Connect Wallet
         </button>
@@ -36,7 +36,7 @@ export const ConnectButtons = () => {
           <button
             type="button"
             onClick={() => disconnect()}
-            className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 ease-in-out"
+            className="bg-gray-500  hover:bg-gray-400 text-white font-semibold py-0 px-2 rounded-lg transition duration-300 ease-in-out"
           >
             Desconectar
           </button>
@@ -44,7 +44,7 @@ export const ConnectButtons = () => {
       )}
 
       {isOpen && !isConnected && (
-        <div className="absolute bg-white border border-gray-200 mt-2 py-2 rounded-lg shadow-lg w-64">
+        <div className="absolute bg-gray-500 border-0 border-gray-400 mt-2 py-2 rounded-lg shadow-lg w-64">
           <ScrollArea className="h-48">
             {connectors.map((connector) => (
               <button
@@ -54,7 +54,7 @@ export const ConnectButtons = () => {
                   setIsOpen(false); // Cierra el dropdown después de seleccionar una wallet
                 }}
                 type="button"
-                className="block w-full text-left px-4 py-2 text-black hover:bg-gray-100"
+                className="block w-full text-left px-4 py-2 text-black hover:bg-gray-400"
               >
                 {connector.name}
               </button>
