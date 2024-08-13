@@ -21,9 +21,9 @@ export const ConnectButtons = () => {
         <button
           onClick={toggleDropdown}
           type="button"
-          className="bg-orange-500 hover:bg-orange-400 text-black font-semibold py-2 px-4 rounded-lg transition duration-300 ease-in-out"
+          className="bg-orange-400 hover:bg-black hover:text-white text-black font-semibold py-0 px-4 rounded-lg transition duration-300 ease-in-out"
         >
-          Conectar Wallet
+          Connect Wallet
         </button>
       ) : (
         <>

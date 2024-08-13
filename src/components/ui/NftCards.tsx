@@ -46,7 +46,7 @@ const MenuPage = () => {
                 className="object-cover w-full h-64 rounded-lg"
                 layout="responsive"
               />
-              <div className="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white p-2 text-center rounded-b-lg hover:bg-orange-500 hover:text-black transition-colors duration-300">
+              <div className="absolute bottom-0 left-0 w-full bg-black bg-opacity-90 text-2xl p-2 text-center rounded-b-lg hover:bg-orange-400 hover:text-black transition-colors duration-300">
   {image.title}
 </div>
 

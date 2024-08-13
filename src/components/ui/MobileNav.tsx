@@ -12,20 +12,24 @@ const links = [
     path: "/",
   },
   {
-    name: "services",
-    path: "/services",
+    name: "Chapter 1",
+    path: "/chapter1",
   },
   {
-    name: "resume",
-    path: "/resume",
+    name: "Chapter 2",
+    path: "/chapter2",
   },
   {
-    name: "work",
-    path: "/work",
+    name: "Chapter 3",
+    path: "/chapter3",
   },
   {
-    name: "contact",
-    path: "/contact",
+    name: "Chapter 4",
+    path: "/chapter4",
+  },
+  {
+    name: "Chapter 5",
+    path: "/chapter5",
   },
 ];
 
@@ -34,14 +38,14 @@ const MobileNav = () => {
   return (
     <Sheet>
       <SheetTrigger className="flex justify-center">
-        <CiMenuFries className="text-[32px] text-accent-DEFALUT" />
+        <CiMenuFries className="text-[32px] text-accent" />
       </SheetTrigger>
       <SheetContent className="flex flex-col">
         {/*Logo*/}
         <div className="mt-32 mb-40 text-center text-2xl">
           <Link href="/">
             <h1 className="text-4xl font-semibold">
-              Pablodrum <span className="text-accent-DEFALUT">.</span>
+              Suspended <span className="text-accent">.</span>
             </h1>
           </Link>
         </div>
@@ -51,7 +55,7 @@ const MobileNav = () => {
               <Link
                 href={link.path}
                 key={index}
-                className={`${link.path === pathname && "text-accent-DEFALUT border-b-2 border-accent-DEFALUT"} text-xl capitalize hover:text-accent-DEFALUT transition-all`}
+                className={`${link.path === pathname && "text-accent border-b-2 border-accent"} text-xl capitalize hover:text-accent transition-all`}
               >
                 {link.name}
               </Link>
