@@ -15,7 +15,7 @@ export function getConfig() {
     }),
     ssr: true,
     transports: {
-      [arbitrum.id]: http('42161'),
+      [arbitrum.id]: http(),
     }
   })
 }
