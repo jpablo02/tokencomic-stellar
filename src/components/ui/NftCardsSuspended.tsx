@@ -4,33 +4,29 @@ import AnimatedCircle from "../ui/AnimatedCircle"; // Ajusta la ruta según sea 
 
 const images = [
   {
-    src: "https://bafybeihie6nphrd275hp4pxi5pubwrmbkanpgocnhnfmu7zp6bcemragae.ipfs.dweb.link/7.png",
-    title: "The suspended",
-    path: "/suspended"
+    src: "https://gateway.lighthouse.storage/ipfs/QmUhtUX8nD1vEJ9zB9PDTjvxWhyixSQGe71duo7KexXJyy/1.jpg",
+    title: "Chapter 1",
+    path: "/chapter1"
   },
   {
     src: "https://gateway.lighthouse.storage/ipfs/bafybeih4g7jzd2e6cmyxtz7jvzhklrxdsyjchxgndtt7irdmupawo4gsrq/1.png",
-    title: "Khallo Photo",
+    title: "Chapter 2",
     path: "/chapter2"
   },
   {
     src: "https://bafybeihaeqxsomey6atu77nvtqg7d7p6ycekstgweiostkwpknz6idujdi.ipfs.dweb.link/1.png",
-    title: "RioBeta",
+    title: "Chapter 3",
     path: "/chapter3"
   },
   {
     src: "https://bafybeiexjn4b7ewg2a7embuyrfooxqk7nsbkds3chcbqdgxkz3gbbybmuq.ipfs.dweb.link/1.png",
-    title: "Filtro Estudio",
+    title: "Chapter 4",
     path: "/chapter4"
   },
-  {
-    src: "https://bafybeiexjn4b7ewg2a7embuyrfooxqk7nsbkds3chcbqdgxkz3gbbybmuq.ipfs.dweb.link/1.png",
-    title: "Soon",
-    path: "/suspended"
-  },
+
   {
     src: "https://bafybeihie6nphrd275hp4pxi5pubwrmbkanpgocnhnfmu7zp6bcemragae.ipfs.dweb.link/1.png",
-    title: "Soon",
+    title: "Chapter 5",
     path: "/chapter5"
   }
 ];

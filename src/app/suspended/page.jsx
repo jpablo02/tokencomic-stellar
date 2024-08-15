@@ -1,9 +1,9 @@
 "use client";
-import Photo from "../components/ui/Photo";
+
 import React from "react";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
-import { MintNFT } from "./mint-nft";
-import NftCards from "@/components/ui/NftCards";
+
+import NftCardsSuspended from "@/components/ui/NftCardsSuspended";
 import path from "path";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -30,26 +30,39 @@ function App() {
             {/*text */}
 
             <div className="text-center xl:text-left order-2 xl:order-none pr-0">
-             
+              <span className="text-2xl top-30 left-0 ">WEB 3 FUNDATION</span>
               <h1 className="h1 mb-4">
-                <div className="bg-orange-400 inline-block rounded-2xl">
-                  <span className="text-black">Token</span>
-                </div>
+                {"Pet"}
                 <br />
-                {"Hub"}
+                <div className="bg-orange-400 inline-block rounded-2xl">
+                  <span className="text-black">Safe</span>
+                </div>
               </h1>
               <h2 className=" text-2xl max-w-[500px] mb-9 text-white/80">
-              Web3 Your Content, Share with the World!!!
+                The first animal aid foundation based on NFTS
               </h2>
 
               {/*boton */}
 
-              
+              <Button className="uppercase flex items-center gap-2">
+                {links.map((link, index) => {
+                  return (
+                    <Link
+                      href={link.path}
+                      key={index}
+                      className={`${link.path === pathname && " border-b-2 border-accent"}
+              capitalize font-medium hover:text-black transition-all`}
+                    >
+                      {link.name}
+                    </Link>
+                  );
+                })}
+              </Button>
             </div>
 
             {/*NFT */}
             <div className="w-full max-w-3xl mx-auto">
-              <NftCards />
+              <NftCardsSuspended />
             </div>
           </div>
         </div>
