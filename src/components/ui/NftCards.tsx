@@ -9,27 +9,27 @@ const images = [
     path: "/suspended"
   },
   {
-    src: "https://gateway.lighthouse.storage/ipfs/bafybeih4g7jzd2e6cmyxtz7jvzhklrxdsyjchxgndtt7irdmupawo4gsrq/1.png",
+    src: "",
     title: "Khallo Photo",
     path: "/chapter2"
   },
   {
-    src: "https://bafybeihaeqxsomey6atu77nvtqg7d7p6ycekstgweiostkwpknz6idujdi.ipfs.dweb.link/1.png",
+    src: "",
     title: "RioBeta",
     path: "/chapter3"
   },
   {
-    src: "https://bafybeiexjn4b7ewg2a7embuyrfooxqk7nsbkds3chcbqdgxkz3gbbybmuq.ipfs.dweb.link/1.png",
+    src: "",
     title: "Filtro Estudio",
     path: "/chapter4"
   },
   {
-    src: "https://bafybeiexjn4b7ewg2a7embuyrfooxqk7nsbkds3chcbqdgxkz3gbbybmuq.ipfs.dweb.link/1.png",
+    src: "",
     title: "Soon",
     path: "/suspended"
   },
   {
-    src: "https://bafybeihie6nphrd275hp4pxi5pubwrmbkanpgocnhnfmu7zp6bcemragae.ipfs.dweb.link/1.png",
+    src: "",
     title: "Soon",
     path: "/chapter5"
   }
