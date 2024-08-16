@@ -11,23 +11,23 @@ const images = [
   {
     src: "https://bafybeifypdd6ffmryu6mbcofzkj5su7gobqorya3deq7umxlmxouihnbwa.ipfs.dweb.link/callouscomics.png",
     title: "Callous",
-    path: "/chapter2"
+    path: "/coomingSoon"
   },
   {
     src: "https://bafybeifypdd6ffmryu6mbcofzkj5su7gobqorya3deq7umxlmxouihnbwa.ipfs.dweb.link/peppercarrot.png",
     
     title: "Pepper carrot",
-    path: "/chapter3"
+    path: "/coomingSoon"
   },
   {
     src: "https://bafybeifypdd6ffmryu6mbcofzkj5su7gobqorya3deq7umxlmxouihnbwa.ipfs.dweb.link/lifeinaggro.png",
     title: "Life in aggro",
-    path: "/chapter4"
+    path: "/coomingSoon"
   },
   {
     src: "https://bafybeifypdd6ffmryu6mbcofzkj5su7gobqorya3deq7umxlmxouihnbwa.ipfs.dweb.link/dieselsweeties.png",
     title: "Diesel sweeties",
-    path: "/suspended"
+    path: "/coomingSoon"
   },
   // {
   //   src: "https://bafybeifypdd6ffmryu6mbcofzkj5su7gobqorya3deq7umxlmxouihnbwa.ipfs.dweb.link/poorlydrawnlines.png",
