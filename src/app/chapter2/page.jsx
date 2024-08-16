@@ -29,7 +29,7 @@ function App() {
           <div className="bg-[#1E293B] flex flex-col xl:flex-row items-center justify-between xl:pt-6 xl:pb-6 ">
             {/*text */}
 
-            <div className="text-center xl:text-left order-2 xl:order-none pr-0 z-40">
+            <div className="text-center xl:text-left order-2 xl:order-none pr-0 z-20">
               <Link href="/suspended">
                 <div className="flex items-center">
                   <img
@@ -46,7 +46,7 @@ function App() {
                 </div>
               </Link>
               <h2 className=" text-2xl max-w-[500px] mb-9 text-white/80">
-                A story that mixes science fiction, reality and blockchain
+              Chapter 2
               </h2>
 
               {/*boton */}

@@ -31,12 +31,12 @@ export default function RootLayout(props: { children: ReactNode }) {
   return (
     <html lang="en">
       <body className={`${jetbrainsMono.variable} `}>
-        <StairTransition />
         <PageTransition>
+          <StairTransition />
           <Providers initialState={initialState}>
-            <Header />
+            <Header/>
             {props.children}
-          </Providers>          
+          </Providers>
         </PageTransition>
       </body>
     </html>
