@@ -41,9 +41,7 @@ export function MintNFT4() {
           Mint NFT
         
       </Button>
-      {hash && (
-        <div className="mt-4 text-yellow-500">Transaction Hash: {hash}</div>
-      )}
+     
     </form>
   );
 }

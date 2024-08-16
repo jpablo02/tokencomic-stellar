@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { useAccount, useConnect, useDisconnect, useWriteContract } from "wagmi";
 import { ScrollArea } from "./scroll-area";
 import { MintNFT } from "../../app/mint-nft";
 
@@ -11,6 +11,7 @@ export const ConnectButtons = () => {
   const { disconnect } = useDisconnect();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const { data: hash, writeContract } = useWriteContract();
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -36,6 +37,7 @@ export const ConnectButtons = () => {
   }, [isOpen]);
 
   return (
+    
     <div className="relative" ref={dropdownRef}>
       {!isConnected ? (
         <button
@@ -43,6 +45,9 @@ export const ConnectButtons = () => {
           type="button"
           className="bg-orange-400 hover:bg-black hover:text-gray-300 text-black font-semibold py-0 px-4 rounded-lg transition duration-300 ease-in-out"
         >
+          {hash && (
+          <div className="mt-4 text-yellow-500">Transaction Hash: {hash}</div>
+        )}
           Connect Wallet
         </button>
       ) : (
@@ -59,7 +64,9 @@ export const ConnectButtons = () => {
           >
             Desconectar
           </button>
+          
         </>
+        
       )}
 
       {isOpen && !isConnected && (
