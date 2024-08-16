@@ -14,15 +14,12 @@ const Header = () => {
           <Link href="/">
           <div className="  flex  items-center">
             <img
-              src="https://chocolate-legislative-lamprey-152.mypinata.cloud/ipfs/QmXkcpjzj9TqkNy1prxvtSnNrZVyQq6qpwSGgNHqReizMK/Designer1.png"
+              src="https://bafybeicfsv7bdfnrrysqkmjqxbsqenpngmcariwbybzjf2orttf5vjxtvi.ipfs.dweb.link/"
               className="w-24 h-auto"
               alt="Logo"
             />
                       
-              <h1 className="text-4xl font-semibold ml-0">
-                <span className="text-black">.</span>
-                <span className="text-orange-500">.</span>
-              </h1>
+              
           </div>
           </Link> 
 

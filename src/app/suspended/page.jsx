@@ -39,7 +39,8 @@ function App() {
                 </div>
               </Link>
               <h2 className=" text-2xl max-w-[500px] mb-9 text-white/80">
-                A story that mixes science fiction, reality and blockchain
+                A story that mixes science fiction, reality and collectibles nft 
+
               </h2>
 
               {/*boton */}

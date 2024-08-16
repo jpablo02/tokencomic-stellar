@@ -38,7 +38,7 @@ const images = [
 
 const MenuPage = () => {
   return (
-    <div className="">
+    <div className="order-2">
       <AnimatedCircle className="absolute inset-0 z-0 w-full h-full" />
       <div className="relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">

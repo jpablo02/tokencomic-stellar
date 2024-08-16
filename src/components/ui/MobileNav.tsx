@@ -7,30 +7,32 @@ import { CiMenuFries } from "react-icons/ci";
 import path from "path";
 
 const links = [
+  
+
+
   {
-    name: "Home",
-    path: "/",
+    name: "The suspended",
+    path: "/suspended",
+  },
+
+  
+  {
+    name: "Callous",
+    path: "/coomingSoon",
   },
   {
-    name: "Chapter 1",
-    path: "/chapter1",
+    name: "Pepper carrot",
+    path: "/coomingSoon",
   },
   {
-    name: "Chapter 2",
-    path: "/chapter2",
+    name: "Life in aggro",
+    path: "/coomingSoon",
   },
   {
-    name: "Chapter 3",
-    path: "/chapter3",
+    name: "Diesel sweeties",
+    path: "/coomingSoon",
   },
-  {
-    name: "Chapter 4",
-    path: "/chapter4",
-  },
-  {
-    name: "Chapter 5",
-    path: "/chapter5",
-  },
+  
 ];
 
 const MobileNav = () => {
@@ -45,7 +47,7 @@ const MobileNav = () => {
         <div className="mt-32 mb-40 text-center text-2xl">
           <Link href="/">
             <h1 className="text-4xl font-semibold">
-              Suspended <span className="text-accent">.</span>
+              Token Hub<span className="text-accent">.</span>
             </h1>
           </Link>
         </div>

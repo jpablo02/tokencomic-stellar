@@ -29,17 +29,17 @@ function App() {
           <div className="bg-[#1E293B] flex flex-col xl:flex-row items-center justify-between xl:pt-6 xl:pb-6 ">
             {/*text */}
 
-            <div className="text-center xl:text-left order-2 xl:order-none pr-0">
+            <div className="text-center xl:text-left order-1 xl:order-none pr-0 pt-4 text-2xl">
              
               <h1 className="h1 mb-4">
-                <div className="bg-orange-400 inline-block rounded-2xl">
+                <div className="bg-[#f58240] inline-block rounded-2xl">
                   <span className="text-black">Token</span>
                 </div>
                 <br />
                 {"Hub"}
               </h1>
               <h2 className=" text-2xl max-w-[500px] mb-9 text-white/80">
-              Web3 Your Comic, Share with the World!!!
+              Web3 Your Comic / mint the World!!!
               </h2>
 
               {/*boton */}
@@ -48,7 +48,7 @@ function App() {
             </div>
 
             {/*NFT */}
-            <div className="w-full max-w-3xl mx-auto">
+            <div className="w-full max-w-3xl mx-auto order-2">
               <NftCards />
             </div>
           </div>
