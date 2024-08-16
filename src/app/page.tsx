@@ -39,7 +39,7 @@ function App() {
                 {"Hub"}
               </h1>
               <h2 className=" text-2xl max-w-[500px] mb-9 text-white/80">
-              Web3 Your Content, Share with the World!!!
+              Web3 Your Comic, Share with the World!!!
               </h2>
 
               {/*boton */}
