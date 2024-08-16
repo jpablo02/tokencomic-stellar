@@ -29,12 +29,12 @@ function App() {
           <div className="bg-[#1E293B] flex flex-col xl:flex-row items-center justify-between xl:pt-6 xl:pb-6 ">
             {/*text */}
 
-            <div className="text-center xl:text-left order-2 xl:order-none pr-0 z-20">
+            <div className="text-center xl:text-left  order-2 xl:order-none pr-0 z-20">
               <Link href="/suspended">
-                <div className="flex items-center">
+                <div className="flex items-center hover:scale-110">
                   <img
                     src="https://chocolate-legislative-lamprey-152.mypinata.cloud/ipfs/QmXkcpjzj9TqkNy1prxvtSnNrZVyQq6qpwSGgNHqReizMK/Designer1.png"
-                    className="w-24 h-auto"
+                    className="w-24 h-auto "
                     alt="Logo"
                   />
 

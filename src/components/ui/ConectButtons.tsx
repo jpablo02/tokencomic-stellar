@@ -55,7 +55,7 @@ export const ConnectButtons = () => {
           <button
             type="button"
             onClick={() => disconnect()}
-            className="bg-gray-400  hover:bg-gray-400 text-white font-semibold py-0 px-2 rounded-lg transition duration-300 ease-in-out"
+            className="bg-gray-400  hover:bg-gray-500 text-white font-semibold py-0 px-2 rounded-lg transition duration-300 ease-in-out"
           >
             Desconectar
           </button>
@@ -73,7 +73,7 @@ export const ConnectButtons = () => {
                   setIsOpen(false); // Cierra el dropdown después de seleccionar una wallet
                 }}
                 type="button"
-                className="block w-full text-left px-4 py-2 text-black hover:bg-gray-400"
+                className="block w-full text-left px-4 py-2 text-black hover:bg-gray-600"
               >
                 {connector.name}
               </button>
