@@ -10,6 +10,7 @@ const nextConfig = {
       'bafybeihie6nphrd275hp4pxi5pubwrmbkanpgocnhnfmu7zp6bcemragae.ipfs.dweb.link', // Agregado
       'chocolate-legislative-lamprey-152.mypinata.cloud',
       'bafybeifgvjz7fx7q7ubbbos32ffliiu7c7lsykcsdkvcmitjfkt3gksvge.ipfs.dweb.link',
+      'bafybeifypdd6ffmryu6mbcofzkj5su7gobqorya3deq7umxlmxouihnbwa.ipfs.dweb.link', // Agregado este dominio
     ],
   },
   reactStrictMode: true,

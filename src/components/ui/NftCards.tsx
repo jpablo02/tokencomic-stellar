@@ -9,30 +9,31 @@ const images = [
     path: "/suspended"
   },
   {
-    src: "",
-    title: "Khallo Photo",
+    src: "https://bafybeifypdd6ffmryu6mbcofzkj5su7gobqorya3deq7umxlmxouihnbwa.ipfs.dweb.link/callouscomics.png",
+    title: "Callous",
     path: "/chapter2"
   },
   {
-    src: "",
-    title: "RioBeta",
+    src: "https://bafybeifypdd6ffmryu6mbcofzkj5su7gobqorya3deq7umxlmxouihnbwa.ipfs.dweb.link/peppercarrot.png",
+    
+    title: "Pepper carrot",
     path: "/chapter3"
   },
   {
-    src: "",
-    title: "Filtro Estudio",
+    src: "https://bafybeifypdd6ffmryu6mbcofzkj5su7gobqorya3deq7umxlmxouihnbwa.ipfs.dweb.link/lifeinaggro.png",
+    title: "Life in aggro",
     path: "/chapter4"
   },
   {
-    src: "",
-    title: "Soon",
+    src: "https://bafybeifypdd6ffmryu6mbcofzkj5su7gobqorya3deq7umxlmxouihnbwa.ipfs.dweb.link/dieselsweeties.png",
+    title: "Diesel sweeties",
     path: "/suspended"
   },
-  {
-    src: "",
-    title: "Soon",
-    path: "/chapter5"
-  }
+  // {
+  //   src: "https://bafybeifypdd6ffmryu6mbcofzkj5su7gobqorya3deq7umxlmxouihnbwa.ipfs.dweb.link/poorlydrawnlines.png",
+  //   title: "Poor drawnlines",
+  //   path: "/chapter5"
+  // }
 ];
 
 const MenuPage = () => {
