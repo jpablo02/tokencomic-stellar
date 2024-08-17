@@ -39,7 +39,7 @@ function App() {
                 {"Hub"}
               </h1>
               <h2 className=" text-2xl max-w-[500px] mb-9 text-white/80">
-              Web3 Your Comic / mint the World!!!
+                Web3 Your Comic / mint the World!!!
               </h2>
 
               {/*boton */}
@@ -54,6 +54,11 @@ function App() {
           </div>
         </div>
       </section>
+      <div className=" relative text-center z-10 w-full max-w-3xl mx-auto order-2">
+        <Link href="https://www.pablodrum.xyz" legacyBehavior className="z-10 text-center">
+          <a className="z-10 text-center hover:text-accent">Created By pablodrum</a>
+        </Link>
+      </div>
     </section>
   );
 }

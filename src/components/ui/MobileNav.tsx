@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { CiMenuFries } from "react-icons/ci";
 import path from "path";
+import { ConnectButtons } from "./ConectButtons";
 
 const links = [
   
@@ -42,12 +43,14 @@ const MobileNav = () => {
       <SheetTrigger className="flex justify-center">
         <CiMenuFries className="text-[32px] text-accent" />
       </SheetTrigger>
+      
       <SheetContent className="flex flex-col">
         {/*Logo*/}
         <div className="mt-32 mb-40 text-center text-2xl">
           <Link href="/">
             <h1 className="text-4xl font-semibold">
               Token Hub<span className="text-accent">.</span>
+              <ConnectButtons />
             </h1>
           </Link>
         </div>
@@ -66,6 +69,7 @@ const MobileNav = () => {
         </nav>
       </SheetContent>
     </Sheet>
+    
   );
 };
 

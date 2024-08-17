@@ -42,7 +42,7 @@ export const ConnectButtons = () => {
         <button
           onClick={toggleDropdown}
           type="button"
-          className="bg-orange-400 hover:bg-black hover:text-gray-300 text-black font-semibold py-0 px-4 rounded-lg transition duration-300 ease-in-out"
+          className="text-sm bg-orange-400 hover:bg-black hover:text-gray-300 text-black font-semibold py-0 px-4 rounded-lg transition duration-300 ease-in-out"
         >
           {hash && (
             <div className="mt-4 text-yellow-500">Transaction Hash: {hash}</div>
@@ -59,7 +59,7 @@ export const ConnectButtons = () => {
           <button
             type="button"
             onClick={() => disconnect()}
-            className="bg-gray-400 hover:bg-gray-500 text-white font-semibold py-0 px-2 rounded-lg transition duration-300 ease-in-out"
+            className="text-sm bg-gray-400 hover:bg-gray-500 text-white font-semibold py-0 px-2 rounded-lg transition duration-300 ease-in-out"
           >
             Disconnect
           </button>
@@ -67,7 +67,7 @@ export const ConnectButtons = () => {
       )}
 
       {isOpen && !isConnected && (
-        <div className="absolute bg-gray-400 border-0 border-gray-400 mt-2 py-2 rounded-lg shadow-lg w-64">
+        <div className=" text-sm absolute bg-gray-400 border-0 border-gray-400 mt-2 py-2 rounded-lg shadow-lg w-64">
           <ScrollArea className="h-48">
             {connectors.map((connector) => (
               <button
@@ -77,7 +77,7 @@ export const ConnectButtons = () => {
                   setIsOpen(false); // Close the dropdown after selecting a wallet
                 }}
                 type="button"
-                className="block w-full text-left px-4 py-2 text-black hover:bg-gray-600"
+                className="text-sm block w-full text-left px-4 py-2 text-black hover:bg-gray-600"
               >
                 {connector.name}
               </button>
