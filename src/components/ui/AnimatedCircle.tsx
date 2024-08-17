@@ -1,7 +1,12 @@
 // components/ui/AnimatedCircle.js
 import { motion } from "framer-motion";
 
-const AnimatedCircle = ({ className }) => (
+interface AnimatedCircleProps {
+  className: string; // Puedes especificar `string` como el tipo, y hacerlo opcional con `?`
+}
+
+
+const AnimatedCircle: React.FC<AnimatedCircleProps> = ({ className }) => (
   <motion.svg
     className={className}
     fill="transparent"

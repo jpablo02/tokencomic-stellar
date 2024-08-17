@@ -10,17 +10,17 @@ export const ConnectButtons = () => {
   const { connectors, connect } = useConnect();
   const { disconnect } = useDisconnect();
   const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef(null);
+  const dropdownRef = useRef<HTMLDivElement>(null); // Added type here
   const { data: hash, writeContract } = useWriteContract();
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
-  // Maneja el cierre del dropdown cuando se hace clic fuera de él
+  // Handles closing the dropdown when clicking outside of it
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
@@ -37,7 +37,6 @@ export const ConnectButtons = () => {
   }, [isOpen]);
 
   return (
-    
     <div className="relative" ref={dropdownRef}>
       {!isConnected ? (
         <button
@@ -46,8 +45,8 @@ export const ConnectButtons = () => {
           className="bg-orange-400 hover:bg-black hover:text-gray-300 text-black font-semibold py-0 px-4 rounded-lg transition duration-300 ease-in-out"
         >
           {hash && (
-          <div className="mt-4 text-yellow-500">Transaction Hash: {hash}</div>
-        )}
+            <div className="mt-4 text-yellow-500">Transaction Hash: {hash}</div>
+          )}
           Connect Wallet
         </button>
       ) : (
@@ -60,13 +59,11 @@ export const ConnectButtons = () => {
           <button
             type="button"
             onClick={() => disconnect()}
-            className="bg-gray-400  hover:bg-gray-500 text-white font-semibold py-0 px-2 rounded-lg transition duration-300 ease-in-out"
+            className="bg-gray-400 hover:bg-gray-500 text-white font-semibold py-0 px-2 rounded-lg transition duration-300 ease-in-out"
           >
-            Desconectar
+            Disconnect
           </button>
-          
         </>
-        
       )}
 
       {isOpen && !isConnected && (
@@ -77,7 +74,7 @@ export const ConnectButtons = () => {
                 key={connector.id}
                 onClick={() => {
                   connect({ connector });
-                  setIsOpen(false); // Cierra el dropdown después de seleccionar una wallet
+                  setIsOpen(false); // Close the dropdown after selecting a wallet
                 }}
                 type="button"
                 className="block w-full text-left px-4 py-2 text-black hover:bg-gray-600"

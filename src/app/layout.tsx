@@ -11,6 +11,8 @@ import Header from "@/components/ui/Header";
 import PageTransition from "@/components/ui/PageTransition";
 import React from "react";
 import StairTransition from "@/components/ui/StairTransition";
+import supportsColor from 'supports-color';
+
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
