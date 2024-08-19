@@ -50,7 +50,9 @@ const MobileNav = () => {
           <Link href="/">
             <h1 className="text-4xl font-semibold">
               Token Hub<span className="text-accent">.</span>
+              <div className="flex flex-col justify-center items-center gap-3">
               <ConnectButtons />
+            </div>
             </h1>
           </Link>
         </div>

@@ -51,10 +51,11 @@ export const ConnectButtons = () => {
         </button>
       ) : (
         <>
-          <div className="mb-4">
-            <span className="font-medium">Status:</span> {isConnected ? "Connected" : "Disconnected"}
+          <div className="mb-2 text-sm  xl:border-none border-slate-700 mx-2 rounded-lg text-yellow-500">
+            <span className="text-white">Status:</span> {isConnected ? "Connected" : "Disconnected"}
             <br />
-            <span className="font-medium">Address:</span> {address}
+            <span className="text-white">Address:</span> 
+            <div className="text-xs overflow-hidden text-ellipsis whitespace-nowrap">{address}</div>
           </div>
           <button
             type="button"
@@ -67,8 +68,8 @@ export const ConnectButtons = () => {
       )}
 
       {isOpen && !isConnected && (
-        <div className=" text-sm absolute bg-gray-400 border-0 border-gray-400 mt-2 py-2 rounded-lg shadow-lg w-64">
-          <ScrollArea className="h-48">
+        <div className=" text-sm absolute flex bg-gray-400 border-0 border-gray-400 mt-2 py-2 rounded-lg shadow-lg w-40">
+          <ScrollArea className="h-40">
             {connectors.map((connector) => (
               <button
                 key={connector.id}
@@ -77,7 +78,7 @@ export const ConnectButtons = () => {
                   setIsOpen(false); // Close the dropdown after selecting a wallet
                 }}
                 type="button"
-                className="text-sm block w-full text-left px-4 py-2 text-black hover:bg-gray-600"
+                className="block w-full text-left px-4 py-2 text-black hover:bg-gray-600"
               >
                 {connector.name}
               </button>

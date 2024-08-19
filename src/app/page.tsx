@@ -32,14 +32,18 @@ function App() {
             <div className="text-center xl:text-left order-1 xl:order-none pr-0 pt-4 text-2xl">
              
               <h1 className="h1 mb-4">
-                <div className="bg-[#f58240] inline-block rounded-2xl">
-                  <span className="text-black">Token</span>
+              
+              
+                <div className="bg-[#f58240] inline-block rounded-2xl text-center items-center">
+                  <span className="text-black ">Token</span>
+                  
                 </div>
-                <br />
-                {"Hub"}
+                <br/>
+                {"Comic"}
+                
               </h1>
               <h2 className=" text-2xl max-w-[500px] mb-9 text-white/80">
-                Web3 Your Comic / mint the World!!!
+                Web3 Your Comic, <br/> mint the World!!!
               </h2>
 
               {/*boton */}
@@ -56,7 +60,7 @@ function App() {
       </section>
       <div className=" relative text-center z-10 w-full max-w-3xl mx-auto order-2">
         <Link href="https://www.pablodrum.xyz" legacyBehavior className="z-10 text-center">
-          <a className="z-10 text-center hover:text-accent">Created By pablodrum</a>
+          <a className="z-10 text-center hover:text-[#f58240]">Created By pablodrum</a>
         </Link>
       </div>
     </section>
