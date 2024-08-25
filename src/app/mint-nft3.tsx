@@ -27,7 +27,7 @@ export function MintNFT3() {
       return;
     }
     writeContract({
-      address: "0x94d0d897640f4e9abef75f4dfdcc82e28c1fbda5",
+      address: "0xbe33cdedbefd2e50859ca4e4efdca9f9e85cd14a",
       abi,
       functionName: "safeMint",
       args: [address as Address,uris],
