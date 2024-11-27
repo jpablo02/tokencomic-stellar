@@ -8,7 +8,15 @@ soroban-sdk = "21.7.7"
 
 [lib]
 name = "soroban_nft"
-path = "SorobanNFT.rs"
+path = "src/soroban_nft.rs"
+doctest = false
+crate-type = ["lib", "cdylib"]
+
+[build]
+target = "wasm32-unknown-unknown"
+
+[target.wasm32-unknown-unknown]
+rustflags = ["-C", "target-feature=-reference-types"]
 
 [profile.release]
 opt-level = "z"
