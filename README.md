@@ -4,6 +4,10 @@ Full tutorial: https://jamesbachini.com/soroban-nft/
 
 A Stellar Soroban NFT based on ERC-721 and SEP-0039
 
+Deployed to:
+Testnet: CCOMN26TIW2LJW4A7NWY5UF47X6HNYAF44ZFA2GIIGCSMBEIWVIH2DMA
+Mainnet: CDA5FGE4LZP4S45LP6AJLWMLKWHVWMKFSIKVYEBSIYOB25NWLKCLL7RY
+
 ## Setup
 
 To use this repository, ensure you have the following installed:
