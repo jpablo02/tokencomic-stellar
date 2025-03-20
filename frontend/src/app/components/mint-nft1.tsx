@@ -1,7 +1,7 @@
 import * as React from "react";
 
 
-import type { Address } from "viem";
+
 import { Button } from "./button";
 
 const uris =

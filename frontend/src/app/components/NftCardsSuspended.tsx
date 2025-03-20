@@ -11,23 +11,23 @@ const images = [
   {
     src: "https://gateway.lighthouse.storage/ipfs/bafybeih4g7jzd2e6cmyxtz7jvzhklrxdsyjchxgndtt7irdmupawo4gsrq/1.png",
     title: "Chapter 2",
-    path: "/chapter2"
+    path: "/coomingSoon"
   },
   {
     src: "https://bafybeihaeqxsomey6atu77nvtqg7d7p6ycekstgweiostkwpknz6idujdi.ipfs.dweb.link/1.png",
     title: "Chapter 3",
-    path: "/chapter3"
+    path: "/coomingSoon"
   },
   {
     src: "https://bafybeiexjn4b7ewg2a7embuyrfooxqk7nsbkds3chcbqdgxkz3gbbybmuq.ipfs.dweb.link/1.png",
     title: "Chapter 4",
-    path: "/chapter4"
+    path: "/coomingSoon"
   },
 
   {
     src: "https://bafybeihie6nphrd275hp4pxi5pubwrmbkanpgocnhnfmu7zp6bcemragae.ipfs.dweb.link/1.png",
     title: "Chapter 5",
-    path: "/chapter5"
+    path: "/coomingSoon"
   }
 ];
 
