@@ -1,6 +1,5 @@
 "use client";
 
-// Importamos las funciones y clases necesarias desde el kit
 import {
   StellarWalletsKit,
   WalletNetwork,
@@ -8,80 +7,98 @@ import {
   XBULL_ID,
   ISupportedWallet,
 } from '@creit.tech/stellar-wallets-kit';
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [kit, setKit] = useState<StellarWalletsKit | null>(null);
+  const [isInitializing, setIsInitializing] = useState<boolean>(false);
 
-  // Función principal para manejar la selección de wallets
-  const initializeWalletKit = async () => {
+  // Inicializa el kit una vez al montar el componente
+  useEffect(() => {
+    const initialize = async () => {
+      setIsInitializing(true);
+      try {
+        const newKit = new StellarWalletsKit({
+          network: WalletNetwork.TESTNET,
+          selectedWalletId: XBULL_ID,
+          modules: allowAllModules(),
+        });
+        setKit(newKit);
+        console.log('Kit inicializado en useEffect:', newKit);
+      } catch (error) {
+        console.error('Error al inicializar el kit:', error);
+        setError('Error al inicializar el kit');
+      } finally {
+        setIsInitializing(false);
+      }
+    };
+
+    initialize();
+  }, []); // <-- Se ejecuta solo una vez al inicio
+
+  // Función para conectar la wallet
+  const connectWallet = async () => {
+    if (!kit) {
+      setError('El kit no está inicializado');
+      return;
+    }
+
     try {
-      console.log('Inicializando StellarWalletsKit...');
-
-      // 1. Inicializamos el kit
-      const kit = new StellarWalletsKit({
-        network: WalletNetwork.TESTNET, // Usamos la red de prueba
-        selectedWalletId: XBULL_ID, // Seleccionamos XBULL como wallet predeterminada
-        modules: allowAllModules(), // Permitimos todos los módulos de wallets
-      });
-
-      console.log('Kit inicializado:', kit);
-
-      // 2. Abrimos el modal para que el usuario seleccione una wallet
-      console.log('Abriendo modal de selección de wallet...');
+      console.log('Abriendo modal...');
       await kit.openModal({
         onWalletSelected: async (option: ISupportedWallet) => {
-          console.log('Wallet seleccionada:', option);
-
-          // 3. Configuramos la wallet seleccionada en el kit
           kit.setWallet(option.id);
-          console.log('Wallet configurada en el kit:', option.id);
-
-          // 4. Obtenemos la dirección de la wallet
           const { address } = await kit.getAddress();
-          console.log('Dirección de la wallet obtenida:', address);
-
-          // Actualizamos el estado con la dirección de la wallet
           setWalletAddress(address);
           setError(null);
         },
         onClosed: (err) => {
-          if (err) {
-            console.error('El modal se cerró con un error:', err);
-            setError('Error al cerrar el modal');
-          } else {
-            console.log('El modal se cerró sin errores.');
-          }
+          if (err) setError('Error al cerrar el modal');
         },
-        modalTitle: 'Selecciona tu wallet', // Título personalizado para el modal
-        notAvailableText: 'Wallet no disponible', // Texto personalizado para wallets no disponibles
+        modalTitle: 'Selecciona tu wallet',
       });
     } catch (error) {
-      console.error('Error al inicializar el kit:', error);
-      setError('Error al inicializar el kit');
+      console.error('Error al abrir el modal:', error);
+      setError('Error al conectar la wallet');
     }
   };
 
-  // Ejecutamos la función al cargar la página
-  useEffect(() => {
-    initializeWalletKit();
-  }, []);
+  // Función para desconectar
+  const disconnectWallet = () => {
+    setWalletAddress(null);
+    setError(null);
+  };
 
   return (
     <div style={styles.container}>
       <h1>Stellar Wallets Kit - Next.js</h1>
-      {error && <p style={styles.error}>Error: {error}</p>}
+      {error && <p style={styles.error}>{error}</p>}
       {walletAddress ? (
-        <p style={styles.success}>Wallet conectada: {walletAddress}</p>
+        <>
+          <p style={styles.success}>Conectado: {walletAddress}</p>
+          <button onClick={disconnectWallet} style={styles.button}>
+            Desconectar
+          </button>
+        </>
       ) : (
-        <p>Selecciona una wallet en el modal...</p>
+        <>
+          <p>Selecciona una wallet</p>
+          <button
+            onClick={connectWallet}
+            style={styles.button}
+            disabled={isInitializing}
+          >
+            {isInitializing ? 'Inicializando...' : 'Conectar Wallet'}
+          </button>
+        </>
       )}
     </div>
   );
 }
 
-// Estilos básicos
+// Estilos (igual que antes)
 const styles = {
   container: {
     display: 'flex',
@@ -96,5 +113,15 @@ const styles = {
   },
   success: {
     color: 'green',
+  },
+  button: {
+    marginTop: '10px',
+    padding: '10px 20px',
+    fontSize: '16px',
+    cursor: 'pointer',
+    backgroundColor: '#0070f3',
+    color: 'white',
+    border: 'none',
+    borderRadius: '5px',
   },
 };
