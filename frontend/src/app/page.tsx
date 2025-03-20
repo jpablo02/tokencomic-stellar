@@ -1,127 +1,68 @@
 "use client";
+import Photo from "./components/Photo";
+import React from "react";
 
-import {
-  StellarWalletsKit,
-  WalletNetwork,
-  allowAllModules,
-  XBULL_ID,
-  ISupportedWallet,
-} from '@creit.tech/stellar-wallets-kit';
-import { useState, useEffect } from 'react';
 
-export default function Home() {
-  const [walletAddress, setWalletAddress] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [kit, setKit] = useState<StellarWalletsKit | null>(null);
-  const [isInitializing, setIsInitializing] = useState<boolean>(false);
+import NftCards from "./components/NftCards";
+import path from "path";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 
-  // Inicializa el kit una vez al montar el componente
-  useEffect(() => {
-    const initialize = async () => {
-      setIsInitializing(true);
-      try {
-        const newKit = new StellarWalletsKit({
-          network: WalletNetwork.TESTNET,
-          selectedWalletId: XBULL_ID,
-          modules: allowAllModules(),
-        });
-        setKit(newKit);
-        console.log('Kit inicializado en useEffect:', newKit);
-      } catch (error) {
-        console.error('Error al inicializar el kit:', error);
-        setError('Error al inicializar el kit');
-      } finally {
-        setIsInitializing(false);
-      }
-    };
 
-    initialize();
-  }, []); // <-- Se ejecuta solo una vez al inicio
+function Home() {
+  
+  const pathname = usePathname();
 
-  // Función para conectar la wallet
-  const connectWallet = async () => {
-    if (!kit) {
-      setError('El kit no está inicializado');
-      return;
-    }
-
-    try {
-      console.log('Abriendo modal...');
-      await kit.openModal({
-        onWalletSelected: async (option: ISupportedWallet) => {
-          kit.setWallet(option.id);
-          const { address } = await kit.getAddress();
-          setWalletAddress(address);
-          setError(null);
-        },
-        onClosed: (err) => {
-          if (err) setError('Error al cerrar el modal');
-        },
-        modalTitle: 'Selecciona tu wallet',
-      });
-    } catch (error) {
-      console.error('Error al abrir el modal:', error);
-      setError('Error al conectar la wallet');
-    }
-  };
-
-  // Función para desconectar
-  const disconnectWallet = () => {
-    setWalletAddress(null);
-    setError(null);
-  };
+  const links = [
+    {
+      name: "save the animal world with blockchain",
+      path: "/about",
+    },
+  ];
 
   return (
-    <div style={styles.container}>
-      <h1>Stellar Wallets Kit - Next.js</h1>
-      {error && <p style={styles.error}>{error}</p>}
-      {walletAddress ? (
-        <>
-          <p style={styles.success}>Conectado: {walletAddress}</p>
-          <button onClick={disconnectWallet} style={styles.button}>
-            Desconectar
-          </button>
-        </>
-      ) : (
-        <>
-          <p>Selecciona una wallet</p>
-          <button
-            onClick={connectWallet}
-            style={styles.button}
-            disabled={isInitializing}
-          >
-            {isInitializing ? 'Inicializando...' : 'Conectar Wallet'}
-          </button>
-        </>
-      )}
-    </div>
+    <section className="justify-between">
+      <section className="h-full bg-[#1E293B] justify-between ">
+        <div className="container mx-auto h-full ">
+          <div className="bg-[#1E293B] flex flex-col xl:flex-row items-center justify-between xl:pt-6 xl:pb-6 ">
+            {/*text */}
+
+            <div className="text-center xl:text-left order-1 xl:order-none pr-0 pt-4 text-2xl">
+             
+              <h1 className="h1 mb-4">
+              
+              
+                <div className="bg-[#f58240] inline-block rounded-2xl text-center items-center">
+                  <span className="text-black ">Token</span>
+                  
+                </div>
+                <br/>
+                {"Comic"}
+                
+              </h1>
+              <h2 className=" text-2xl max-w-[500px] mb-9 text-white/80">
+                Web3 Your Comic, <br/> mint the World!!!
+              </h2>
+
+              {/*boton */}
+
+              
+            </div>
+
+            {/*NFT */}
+            <div className="w-full max-w-3xl mx-auto order-2">
+              <NftCards />
+            </div>
+          </div>
+        </div>
+      </section>
+      <div className=" relative text-center z-10 w-full max-w-3xl mx-auto order-2">
+        <Link href="https://www.pablodrum.xyz" legacyBehavior className="z-10 text-center">
+          <a className="z-10 text-center hover:text-[#f58240]">Created By pablodrum</a>
+        </Link>
+      </div>
+    </section>
   );
 }
 
-// Estilos (igual que antes)
-const styles = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: '100vh',
-    fontFamily: 'Arial, sans-serif',
-  },
-  error: {
-    color: 'red',
-  },
-  success: {
-    color: 'green',
-  },
-  button: {
-    marginTop: '10px',
-    padding: '10px 20px',
-    fontSize: '16px',
-    cursor: 'pointer',
-    backgroundColor: '#0070f3',
-    color: 'white',
-    border: 'none',
-    borderRadius: '5px',
-  },
-};
+export default Home;
