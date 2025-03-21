@@ -1,23 +1,15 @@
-'use client'
+"use client";
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { type ReactNode, useState } from 'react'
-import { type State, WagmiProvider } from 'wagmi'
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactNode, useState } from "react";
+import { WalletProvider } from "./WalletProvider"; // Importa el nuevo WalletProvider
 
-import { getConfig } from '@/wagmi'
-
-export function Providers(props: {
-  children: ReactNode
-  initialState?: State
-}) {
-  const [config] = useState(() => getConfig())
-  const [queryClient] = useState(() => new QueryClient())
+export function Providers({ children }: { children: ReactNode }) {
+  const [queryClient] = useState(() => new QueryClient());
 
   return (
-    <WagmiProvider config={config} initialState={props.initialState}>
-      <QueryClientProvider client={queryClient}>
-        {props.children}
-      </QueryClientProvider>
-    </WagmiProvider>
-  )
+    <QueryClientProvider client={queryClient}>
+      <WalletProvider>{children}</WalletProvider>
+    </QueryClientProvider>
+  );
 }

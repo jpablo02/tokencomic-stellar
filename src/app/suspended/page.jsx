@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { useAccount, useConnect, useDisconnect } from "wagmi";
 
 import NftCardsSuspended from "@/components/ui/NftCardsSuspended";
 import path from "path";
@@ -10,9 +9,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 function App() {
-  const { address, isConnected } = useAccount();
-  const { connectors, connect, status, error } = useConnect();
-  const { disconnect } = useDisconnect();
+  
   const pathname = usePathname();
 
   return (

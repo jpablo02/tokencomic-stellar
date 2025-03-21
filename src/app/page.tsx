@@ -1,7 +1,6 @@
 "use client";
 import Photo from "../components/ui/Photo";
 import React from "react";
-import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { MintNFT } from "./mint-nft";
 import NftCards from "@/components/ui/NftCards";
 import path from "path";
@@ -10,9 +9,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 function App() {
-  const { address, isConnected } = useAccount();
-  const { connectors, connect, status, error } = useConnect();
-  const { disconnect } = useDisconnect();
+  
   const pathname = usePathname();
 
   const links = [
