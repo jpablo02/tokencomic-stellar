@@ -7,6 +7,7 @@ import NftCards from "./components/NftCards";
 import path from "path";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import Header from "./components/Header";
 
 
 function Home() {
@@ -22,12 +23,14 @@ function Home() {
 
   return (
     <section className="justify-between">
+     <h1>HOLA</h1>
       <section className="h-full bg-[#1E293B] justify-between ">
         <div className="container mx-auto h-full ">
           <div className="bg-[#1E293B] flex flex-col xl:flex-row items-center justify-between xl:pt-6 xl:pb-6 ">
             {/*text */}
 
             <div className="text-center xl:text-left order-1 xl:order-none pr-0 pt-4 text-2xl">
+            
              
               <h1 className="h1 mb-4">
               
@@ -56,11 +59,7 @@ function Home() {
           </div>
         </div>
       </section>
-      <div className=" relative text-center z-10 w-full max-w-3xl mx-auto order-2">
-        <Link href="https://www.pablodrum.xyz" legacyBehavior className="z-10 text-center">
-          <a className="z-10 text-center hover:text-[#f58240]">Created By pablodrum</a>
-        </Link>
-      </div>
+      
     </section>
   );
 }
