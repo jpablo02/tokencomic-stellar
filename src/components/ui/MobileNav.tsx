@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { CiMenuFries } from "react-icons/ci";
 import path from "path";
-import { ConnectButtons } from "./ConectButtons";
+import  {ConnectButtons}  from "./ConectButtons";
 
 const links = [
   

@@ -1,90 +1,94 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import { useAccount, useConnect, useDisconnect, useWriteContract } from "wagmi";
-import { ScrollArea } from "./scroll-area";
-import { MintNFT } from "../../app/mint-nft";
+import React, { useState, useEffect } from "react";
+import {
+  StellarWalletsKit,
+  WalletNetwork,
+  allowAllModules,
+  XBULL_ID,
+  ISupportedWallet,
+} from "@creit.tech/stellar-wallets-kit";
 
 export const ConnectButtons = () => {
-  const { address, isConnected } = useAccount();
-  const { connectors, connect } = useConnect();
-  const { disconnect } = useDisconnect();
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null); // Added type here
-  const { data: hash, writeContract } = useWriteContract();
+  const [walletAddress, setWalletAddress] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [kit, setKit] = useState<StellarWalletsKit | null>(null);
+  const [isInitializing, setIsInitializing] = useState<boolean>(false);
 
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
-
-  // Handles closing the dropdown when clicking outside of it
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
+    const initialize = async () => {
+      setIsInitializing(true);
+      try {
+        const newKit = new StellarWalletsKit({
+          network: WalletNetwork.TESTNET,
+          selectedWalletId: XBULL_ID,
+          modules: allowAllModules(),
+        });
+        setKit(newKit);
+      } catch (error) {
+        console.error("Error al inicializar el kit:", error);
+        setError("Error al inicializar el kit");
+      } finally {
+        setIsInitializing(false);
       }
     };
 
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
+    initialize();
+  }, []);
+
+  const connectWallet = async () => {
+    if (!kit) {
+      setError("El kit no está inicializado");
+      return;
     }
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isOpen]);
+    try {
+      await kit.openModal({
+        onWalletSelected: async (option: ISupportedWallet) => {
+          kit.setWallet(option.id);
+          const { address } = await kit.getAddress();
+          setWalletAddress(address);
+          setError(null);
+        },
+        onClosed: (err) => {
+          if (err) setError("Error al cerrar el modal");
+        },
+        modalTitle: "Selecciona tu wallet",
+      });
+    } catch (error) {
+      console.error("Error al abrir el modal:", error);
+      setError("Error al conectar la wallet");
+    }
+  };
+
+  const disconnectWallet = () => {
+    setWalletAddress(null);
+    setError(null);
+  };
 
   return (
-    <div className="relative" ref={dropdownRef}>
-      {!isConnected ? (
-        <button
-          onClick={toggleDropdown}
-          type="button"
-          className="text-sm bg-orange-400 hover:bg-black hover:text-gray-300 text-black font-semibold py-0 px-4 rounded-lg transition duration-300 ease-in-out"
-        >
-          {hash && (
-            <div className="mt-4 text-yellow-500">Transaction Hash: {hash}</div>
-          )}
-          Connect Wallet
-        </button>
-      ) : (
+    <div className="relative flex flex-col items-center space-y-2 p-4 bg-gray-800 rounded-lg shadow-md text-white">
+      {error && <p className="text-red-500 text-sm">{error}</p>}
+      {walletAddress ? (
         <>
-          <div className="mb-2 text-sm  xl:border-none border-slate-700 mx-2 rounded-lg text-yellow-500">
-            <span className="text-white">Status:</span> {isConnected ? "Connected" : "Disconnected"}
-            <br />
-            <span className="text-white">Address:</span> 
-            <div className="text-xs overflow-hidden text-ellipsis whitespace-nowrap">{address}</div>
-          </div>
+          <p className="text-green-400">Conectado: {walletAddress}</p>
           <button
-            type="button"
-            onClick={() => disconnect()}
-            className="text-sm bg-gray-400 hover:bg-gray-500 text-white font-semibold py-0 px-2 rounded-lg transition duration-300 ease-in-out"
+            onClick={disconnectWallet}
+            className="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-4 rounded-lg"
           >
-            Disconnect
+            Desconectar
           </button>
         </>
-      )}
-
-      {isOpen && !isConnected && (
-        <div className=" text-sm absolute flex bg-gray-400 border-0 border-gray-400 mt-2 py-2 rounded-lg shadow-lg w-40">
-          <ScrollArea className="h-40">
-            {connectors.map((connector) => (
-              <button
-                key={connector.id}
-                onClick={() => {
-                  connect({ connector });
-                  setIsOpen(false); // Close the dropdown after selecting a wallet
-                }}
-                type="button"
-                className="block w-full text-left px-4 py-2 text-black hover:bg-gray-600"
-              >
-                {connector.name}
-              </button>
-            ))}
-          </ScrollArea>
-        </div>
+      ) : (
+        <>
+          <button
+            onClick={connectWallet}
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-4 rounded-lg"
+            disabled={isInitializing}
+          >
+            {isInitializing ? "Inicializando..." : "Conectar Wallet"}
+          </button>
+        </>
       )}
     </div>
   );
