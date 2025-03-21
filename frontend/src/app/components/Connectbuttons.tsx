@@ -1,21 +1,20 @@
 "use client";
 
+import React, { useState, useEffect } from "react";
 import {
   StellarWalletsKit,
   WalletNetwork,
   allowAllModules,
   XBULL_ID,
   ISupportedWallet,
-} from '@creit.tech/stellar-wallets-kit';
-import { useState, useEffect } from 'react';
+} from "@creit.tech/stellar-wallets-kit";
 
-export default function ConnectButtons() {
+export const ConnectButtons = () => {
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [kit, setKit] = useState<StellarWalletsKit | null>(null);
   const [isInitializing, setIsInitializing] = useState<boolean>(false);
 
-  // Inicializa el kit una vez al montar el componente
   useEffect(() => {
     const initialize = async () => {
       setIsInitializing(true);
@@ -26,27 +25,24 @@ export default function ConnectButtons() {
           modules: allowAllModules(),
         });
         setKit(newKit);
-        console.log('Kit inicializado en useEffect:', newKit);
       } catch (error) {
-        console.error('Error al inicializar el kit:', error);
-        setError('Error al inicializar el kit');
+        console.error("Error al inicializar el kit:", error);
+        setError("Error al inicializar el kit");
       } finally {
         setIsInitializing(false);
       }
     };
 
     initialize();
-  }, []); // <-- Se ejecuta solo una vez al inicio
+  }, []);
 
-  // Función para conectar la wallet
   const connectWallet = async () => {
     if (!kit) {
-      setError('El kit no está inicializado');
+      setError("El kit no está inicializado");
       return;
     }
 
     try {
-      console.log('Abriendo modal...');
       await kit.openModal({
         onWalletSelected: async (option: ISupportedWallet) => {
           kit.setWallet(option.id);
@@ -55,73 +51,45 @@ export default function ConnectButtons() {
           setError(null);
         },
         onClosed: (err) => {
-          if (err) setError('Error al cerrar el modal');
+          if (err) setError("Error al cerrar el modal");
         },
-        modalTitle: 'Selecciona tu wallet',
+        modalTitle: "Selecciona tu wallet",
       });
     } catch (error) {
-      console.error('Error al abrir el modal:', error);
-      setError('Error al conectar la wallet');
+      console.error("Error al abrir el modal:", error);
+      setError("Error al conectar la wallet");
     }
   };
 
-  // Función para desconectar
   const disconnectWallet = () => {
     setWalletAddress(null);
     setError(null);
   };
 
   return (
-    <div style={styles.container}>
-      <h1>Stellar Wallets Kit - Next.js</h1>
-      {error && <p style={styles.error}>{error}</p>}
+    <div className="relative flex flex-col items-center space-y-2 p-4 bg-gray-800 rounded-lg shadow-md text-white">
+      {error && <p className="text-red-500 text-sm">{error}</p>}
       {walletAddress ? (
         <>
-          <p style={styles.success}>Conectado: {walletAddress}</p>
-          <button onClick={disconnectWallet} style={styles.button}>
+          <p className="text-green-400">Conectado: {walletAddress}</p>
+          <button
+            onClick={disconnectWallet}
+            className="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-4 rounded-lg"
+          >
             Desconectar
           </button>
         </>
       ) : (
         <>
-          <p>Selecciona una wallet</p>
           <button
             onClick={connectWallet}
-            style={styles.button}
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-4 rounded-lg"
             disabled={isInitializing}
           >
-            {isInitializing ? 'Inicializando...' : 'Conectar Wallet'}
+            {isInitializing ? "Inicializando..." : "Conectar Wallet"}
           </button>
         </>
       )}
     </div>
   );
-}
-
-// Estilos (igual que antes)
-const styles = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: '100vh',
-    fontFamily: 'Arial, sans-serif',
-  },
-  error: {
-    color: 'red',
-  },
-  success: {
-    color: 'green',
-  },
-  button: {
-    marginTop: '10px',
-    padding: '10px 20px',
-    fontSize: '16px',
-    cursor: 'pointer',
-    backgroundColor: '#0070f3',
-    color: 'white',
-    border: 'none',
-    borderRadius: '5px',
-  },
 };
