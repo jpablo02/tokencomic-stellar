@@ -6,20 +6,9 @@ import {
   XBULL_ID,
 } from "@creit.tech/stellar-wallets-kit";
 import { Button } from "@/components/ui/button";
-import {
-  SorobanRpc,
-  TransactionBuilder,
-  Networks,
-  Operation,
-  Account,
-  Transaction,
-  Address,
-} from "@stellar/stellar-sdk";
+import { SorobanRpc, TransactionBuilder, Networks, Operation } from "@stellar/stellar-sdk";
 
-const CONTRACT_ID = "CCNS4SIP6SHHRV2KHIKDWZ7FTFTNOPWZO6BCGGK3WP24TWEUGR2MEYBU";
-
-// 🔹 Servidor Soroban correcto para TESTNET
-const server = new SorobanRpc.Server("https://soroban-testnet.stellar.org/");
+const CONTRACT_ID = "CCNS4SIP6SHHRV2KHIKDWZ7FTFTNOPWZO6BCGGK3WP24TWEUGR2MEYBU"; // Reemplaza con la dirección del contrato
 
 // Inicializar StellarWalletsKit
 const kit = new StellarWalletsKit({
@@ -50,38 +39,29 @@ export function MintNFTStellar() {
     }
 
     try {
-      // 🔹 Obtener cuenta desde el servidor Soroban
-      const account = await server.getAccount(publicKey);
-
-      // 🔹 Construir la transacción con la cuenta correcta
-      const transaction = new TransactionBuilder(account, {
+      const transaction = new TransactionBuilder(publicKey, {
         fee: "100",
-        networkPassphrase: Networks.TESTNET, // ✅ Usar `Networks.TESTNET` correctamente
+        networkPassphrase: Networks.TESTNET,
       })
         .addOperation(
           Operation.invokeContractFunction({
             contract: CONTRACT_ID,
             function: "mint",
-            args: [],
+            args: []
           })
         )
         .setTimeout(30)
         .build();
 
-      // 🔹 Convertir a XDR y firmar la transacción
+      // Convertir a XDR y firmar la transacción
       const { signedTxXdr } = await kit.signTransaction(transaction.toXDR(), {
         address: publicKey,
         networkPassphrase: WalletNetwork.TESTNET,
       });
 
-      // 🔹 Convertir el XDR firmado a una transacción válida
-      const signedTransaction = new Transaction(signedTxXdr, Networks.TESTNET);
-
-      // 🔹 Preparar la transacción antes de enviarla
-      const preparedTx = await server.prepareTransaction(signedTransaction);
-
-      // 🔹 Enviar la transacción preparada
-      const txResponse = await server.sendTransaction(preparedTx);
+      // Enviar la transacción
+      const server = new SorobanRpc.Server("https://horizon-testnet.stellar.org");
+      const txResponse = await server.sendTransaction(signedTxXdr);
       setHash(txResponse.hash);
       console.log("Transaction Hash:", txResponse.hash);
     } catch (error) {

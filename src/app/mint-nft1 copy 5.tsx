@@ -13,13 +13,9 @@ import {
   Operation,
   Account,
   Transaction,
-  Address,
 } from "@stellar/stellar-sdk";
 
 const CONTRACT_ID = "CCNS4SIP6SHHRV2KHIKDWZ7FTFTNOPWZO6BCGGK3WP24TWEUGR2MEYBU";
-
-// 🔹 Servidor Soroban correcto para TESTNET
-const server = new SorobanRpc.Server("https://soroban-testnet.stellar.org/");
 
 // Inicializar StellarWalletsKit
 const kit = new StellarWalletsKit({
@@ -27,6 +23,9 @@ const kit = new StellarWalletsKit({
   selectedWalletId: XBULL_ID,
   modules: allowAllModules(),
 });
+
+// Servidor Soroban RPC
+const server = new SorobanRpc.Server("https://soroban-testnet.stellar.org/");
 
 export function MintNFTStellar() {
   const [hash, setHash] = useState<string | null>(null);
@@ -50,13 +49,13 @@ export function MintNFTStellar() {
     }
 
     try {
-      // 🔹 Obtener cuenta desde el servidor Soroban
+      // Obtener cuenta desde el servidor
       const account = await server.getAccount(publicKey);
 
-      // 🔹 Construir la transacción con la cuenta correcta
+      // Construir la transacción con la cuenta correcta
       const transaction = new TransactionBuilder(account, {
         fee: "100",
-        networkPassphrase: Networks.TESTNET, // ✅ Usar `Networks.TESTNET` correctamente
+        networkPassphrase: Networks.TESTNET,
       })
         .addOperation(
           Operation.invokeContractFunction({
@@ -68,20 +67,17 @@ export function MintNFTStellar() {
         .setTimeout(30)
         .build();
 
-      // 🔹 Convertir a XDR y firmar la transacción
+      // Convertir a XDR y firmar la transacción
       const { signedTxXdr } = await kit.signTransaction(transaction.toXDR(), {
         address: publicKey,
         networkPassphrase: WalletNetwork.TESTNET,
       });
 
-      // 🔹 Convertir el XDR firmado a una transacción válida
+      // Reconstruir la transacción desde el XDR firmado
       const signedTransaction = new Transaction(signedTxXdr, Networks.TESTNET);
 
-      // 🔹 Preparar la transacción antes de enviarla
-      const preparedTx = await server.prepareTransaction(signedTransaction);
-
-      // 🔹 Enviar la transacción preparada
-      const txResponse = await server.sendTransaction(preparedTx);
+      // Enviar la transacción
+      const txResponse = await server.sendTransaction(signedTransaction);
       setHash(txResponse.hash);
       console.log("Transaction Hash:", txResponse.hash);
     } catch (error) {
