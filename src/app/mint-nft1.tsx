@@ -14,6 +14,7 @@ import {
   Account,
   Transaction,
   Address,
+  xdr,
 } from "@stellar/stellar-sdk";
 
 const CONTRACT_ID = "CCNS4SIP6SHHRV2KHIKDWZ7FTFTNOPWZO6BCGGK3WP24TWEUGR2MEYBU";
@@ -53,6 +54,11 @@ export function MintNFTStellar() {
       // 🔹 Obtener cuenta desde el servidor Soroban
       const account = await server.getAccount(publicKey);
 
+        // 🔹 Convertir la dirección a `ScVal`
+        const userAddressScVal = xdr.ScVal.scvAddress(
+          new Address(publicKey).toScAddress()
+        );
+
       // 🔹 Construir la transacción con la cuenta correcta
       const transaction = new TransactionBuilder(account, {
         fee: "100",
@@ -62,7 +68,7 @@ export function MintNFTStellar() {
           Operation.invokeContractFunction({
             contract: CONTRACT_ID,
             function: "mint",
-            args: [],
+            args: [userAddressScVal],
           })
         )
         .setTimeout(30)
