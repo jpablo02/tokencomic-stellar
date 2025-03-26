@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StellarWalletsKit,
   WalletNetwork,
@@ -14,6 +14,8 @@ import {
   Transaction,
   Address,
   xdr,
+  scValToNative,
+  TimeoutInfinite,
 } from "@stellar/stellar-sdk";
 
 const CONTRACT_ID = "CCNS4SIP6SHHRV2KHIKDWZ7FTFTNOPWZO6BCGGK3WP24TWEUGR2MEYBU";
@@ -24,30 +26,43 @@ const kit = new StellarWalletsKit({
   modules: allowAllModules(),
 });
 
+const useTokenCounter = () => {
+  const [tokenId, setTokenId] = useState<number>(() => {
+    const saved = localStorage.getItem("nftTokenId");
+    return saved ? parseInt(saved, 10) : 3;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("nftTokenId", tokenId.toString());
+  }, [tokenId]);
+
+  const incrementTokenId = () => setTokenId(prev => prev + 1);
+
+  return { tokenId, incrementTokenId };
+};
+
 export function MintNFTStellar() {
   const [hash, setHash] = useState<string | null>(null);
   const [publicKey, setPublicKey] = useState<string | null>(null);
   const [status, setStatus] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { tokenId, incrementTokenId } = useTokenCounter();
 
   const fetchAddress = async () => {
     try {
       setError(null);
       const { address } = await kit.getAddress();
-      console.log("Wallet connected:", address);
       setPublicKey(address);
     } catch (err) {
-      setError("Error getting address");
+      setError("Error connecting wallet");
       console.error("Error getting address:", err);
     }
   };
 
-  async function submit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  const handleMint = async () => {
     if (!publicKey) {
-      setError("No wallet connected");
-      console.error("No wallet connected");
+      setError("Wallet not connected");
       return;
     }
 
@@ -57,105 +72,142 @@ export function MintNFTStellar() {
     setStatus(null);
 
     try {
-      console.log("Fetching account:", publicKey);
       const account = await server.getAccount(publicKey);
+      const networkPassphrase = Networks.TESTNET;
 
-      console.log("Building transaction...");
-      const userAddressScVal = xdr.ScVal.scvAddress(
-        new Address(publicKey).toScAddress()
-      );
+      // Construcción CORRECTA de parámetros
+      const mintArgs = [
+        xdr.ScVal.scvAddress(new Address(publicKey).toScAddress()), // to
+        xdr.ScVal.scvU32(tokenId) // token_id
+      ];
 
-      const transaction = new TransactionBuilder(account, {
-        fee: "100",
-        networkPassphrase: Networks.TESTNET,
+      let transaction = new TransactionBuilder(account, {
+        fee: "1000000",
+        networkPassphrase,
       })
         .addOperation(
           Operation.invokeContractFunction({
             contract: CONTRACT_ID,
             function: "mint",
-            args: [userAddressScVal],
+            args: mintArgs,
           })
         )
-        .setTimeout(30)
+        .setTimeout(TimeoutInfinite)
         .build();
 
-      console.log("Transaction XDR before signing:", transaction.toXDR());
-
-      console.log("Signing transaction...");
-      const { signedTxXdr } = await kit.signTransaction(transaction.toXDR(), {
-        address: publicKey,
-        networkPassphrase: WalletNetwork.TESTNET,
-      });
-
-      if (!signedTxXdr) {
-        throw new Error("Transaction signing failed");
+      const simulateResult = await server.simulateTransaction(transaction);
+      
+      if ("error" in simulateResult) {
+        throw new Error(`Simulation failed: ${simulateResult.error}`);
       }
 
-      console.log("Transaction signed successfully. Sending transaction...");
+      const preparedTx = SorobanRpc.assembleTransaction(
+        transaction, 
+        simulateResult
+      ).build();
 
-      // Enviar transacción a la red
-      const txResponse = await server.sendTransaction(
-        new Transaction(signedTxXdr, Networks.TESTNET)
-      );
+      const { signedTxXdr } = await kit.signTransaction(preparedTx.toXDR(), {
+        address: publicKey,
+        networkPassphrase,
+      });
 
-      console.log("Transaction response:", txResponse);
+      if (!signedTxXdr) throw new Error("Signing failed");
 
-      
+      const tx = TransactionBuilder.fromXDR(signedTxXdr, networkPassphrase);
+      const txResponse = await server.sendTransaction(tx);
+      const finalTx = await server.getTransaction(txResponse.hash);
+
+      if (finalTx.status !== "SUCCESS") {
+        throw new Error(`Transaction failed: ${finalTx.status}`);
+      }
 
       setHash(txResponse.hash);
-      console.log("Transaction Hash:", txResponse.hash);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Transaction failed");
-      console.error("Transaction failed:", err);
-    } finally {
-      setLoading(false);
-    }
-  }
+      incrementTokenId();
+      setStatus("SUCCESS");
 
-  const checkTransactionStatus = async () => {
-    if (!hash) {
-      setError("No transaction hash found");
-      console.error("No transaction hash found");
-      return;
-    }
-    setLoading(true);
-    setError(null);
-
-    try {
-      console.log("Checking transaction status for hash:", hash);
-      const response = await server.getTransaction(hash);
-      setStatus(response.status);
-      console.log("Transaction Status:", response.status);
     } catch (err) {
-      setError("Error checking transaction status");
-      console.error("Error checking transaction status:", err);
+      const errorMessage = err instanceof Error ? err.message : "Unknown error";
+      setError(errorMessage);
+      console.error("Minting error:", err);
     } finally {
       setLoading(false);
     }
   };
 
+  const checkTransactionDetails = async () => {
+    if (!hash) return;
+
+    try {
+      const response = await server.getTransaction(hash);
+
+      setStatus(response.status);
+
+      if (response.status === "SUCCESS" && response.returnValue) {
+        const result = scValToNative(response.returnValue);
+        console.log("Transaction result:", result);
+      }
+    } catch (err) {
+      setError("Error checking transaction");
+      console.error("Status check error:", err);
+    }
+  };
+
   return (
-    <div className="text-center w-full max-w-md mx-auto">
-      {error && <p className="text-red-500">{error}</p>}
+    <div className="text-center w-full max-w-md mx-auto p-4 space-y-4">
+      {error && (
+        <p className="text-red-500 bg-red-100 p-2 rounded-lg">{error}</p>
+      )}
+      
       {!publicKey ? (
-        <Button onClick={fetchAddress} disabled={loading}>
+        <Button
+          onClick={fetchAddress}
+          disabled={loading}
+          className="bg-blue-600 hover:bg-blue-700 text-white"
+        >
           {loading ? "Connecting..." : "Connect Wallet"}
         </Button>
       ) : (
-        <form onSubmit={submit}>
-          <Button type="submit" disabled={loading}>
+        <div className="space-y-4">
+          <p className="text-sm text-gray-600">Connected: {publicKey.slice(0, 6)}...{publicKey.slice(-4)}</p>
+          <p className="text-sm text-gray-600">Next Token ID: {tokenId}</p>
+          
+          <Button
+            onClick={handleMint}
+            disabled={loading}
+            className="bg-green-600 hover:bg-green-700 text-white w-full"
+          >
             {loading ? "Minting..." : "Mint NFT"}
           </Button>
-        </form>
+        </div>
       )}
+
       {hash && (
-        <>
-          <p className="mt-4 text-green-500">Tx Hash: {hash}</p>
-          <Button onClick={checkTransactionStatus} className="mt-2" disabled={loading}>
-            {loading ? "Checking..." : "Check Transaction Status"}
+        <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+          <p className="text-sm font-mono break-words">Tx Hash: {hash}</p>
+          
+          <Button
+            onClick={checkTransactionDetails}
+            className="mt-2 bg-purple-600 hover:bg-purple-700 text-white"
+            disabled={loading}
+          >
+            Verify Transaction
           </Button>
-          {status && <p className="mt-2 text-blue-500">Status: {status}</p>}
-        </>
+          
+          {status && (
+            <div className="mt-2">
+              <p className="text-sm font-semibold">Status:</p>
+              <p
+                className={`${
+                  status === "SUCCESS"
+                    ? "text-green-600"
+                    : "text-yellow-600"
+                }`}
+              >
+                {status}
+              </p>
+            </div>
+          )}
+        </div>
       )}
     </div>
   );
