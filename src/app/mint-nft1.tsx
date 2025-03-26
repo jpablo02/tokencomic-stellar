@@ -18,29 +18,27 @@ import {
   TimeoutInfinite,
 } from "@stellar/stellar-sdk";
 
-const CONTRACT_ID = "CCNS4SIP6SHHRV2KHIKDWZ7FTFTNOPWZO6BCGGK3WP24TWEUGR2MEYBU";
+const CONTRACT_ID = "CDFDKITIUDA54O3FDNV22BSTLCYXQS5MVPWNOTA5LNZC2VUCUYYTHMPI";
 const server = new SorobanRpc.Server("https://soroban-testnet.stellar.org/");
 const kit = new StellarWalletsKit({
   network: WalletNetwork.TESTNET,
   selectedWalletId: XBULL_ID,
   modules: allowAllModules(),
 });
-
 const useTokenCounter = () => {
-  const [tokenId, setTokenId] = useState<number>(() => {
+  const [tokenId, setTokenId] = useState<bigint>(() => {
     const saved = localStorage.getItem("nftTokenId");
-    return saved ? parseInt(saved, 10) : 3;
+    return saved ? BigInt(saved) : 3n;
   });
 
   useEffect(() => {
     localStorage.setItem("nftTokenId", tokenId.toString());
   }, [tokenId]);
 
-  const incrementTokenId = () => setTokenId(prev => prev + 1);
+  const incrementTokenId = () => setTokenId(prev => prev + 1n);
 
   return { tokenId, incrementTokenId };
 };
-
 export function MintNFTStellar() {
   const [hash, setHash] = useState<string | null>(null);
   const [publicKey, setPublicKey] = useState<string | null>(null);
@@ -77,9 +75,10 @@ export function MintNFTStellar() {
 
       // Construcción CORRECTA de parámetros
       const mintArgs = [
-        xdr.ScVal.scvAddress(new Address(publicKey).toScAddress()), // to
-        xdr.ScVal.scvU32(tokenId) // token_id
+        xdr.ScVal.scvAddress(Address.fromString(publicKey).toScAddress()),
+        xdr.ScVal.scvI64(new xdr.Int64(Number(tokenId)))
       ];
+      
 
       let transaction = new TransactionBuilder(account, {
         fee: "1000000",
