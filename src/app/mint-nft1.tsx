@@ -105,6 +105,7 @@ export function MintNFTStellar() {
 
       const tx = TransactionBuilder.fromXDR(signedTxXdr, networkPassphrase);
       const txResponse = await server.sendTransaction(tx);
+      await new Promise(resolve => setTimeout(resolve, 5000));
       const finalTx = await server.getTransaction(txResponse.hash);
 
       if (finalTx.status !== "SUCCESS") {
@@ -170,19 +171,21 @@ export function MintNFTStellar() {
       )}
 
       {hash && (
-        <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-          <p className="text-sm font-mono break-words">Tx Hash: {hash}</p>
+        <div >
           
-          <Button onClick={checkTransactionDetails} className="mt-2 bg-purple-600 hover:bg-purple-700 text-white" disabled={loading}>
-            Verify Transaction
-          </Button>
+
+
+          <a 
+      href={`https://stellar.expert/explorer/testnet/tx/${hash}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-600 hover:underline text-sm block mt-2"
+    >
+      Success: View transaction
+    </a>
           
-          {status && (
-            <div className="mt-2">
-              <p className="text-sm font-semibold">Status:</p>
-              <p className={status === "SUCCESS" ? "text-green-600" : "text-yellow-600"}>{status}</p>
-            </div>
-          )}
+          
+          
         </div>
       )}
     </div>
