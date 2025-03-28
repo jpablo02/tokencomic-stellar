@@ -30,77 +30,53 @@ const kit = new StellarWalletsKit({
 export function MintNFTStellar() {
   const [hash, setHash] = useState<string | null>(null);
   const [publicKey, setPublicKey] = useState<string | null>(null);
-  const [status, setStatus] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [tokenId, setTokenId] = useState<string>("");
-  const [fetchingToken, setFetchingToken] = useState(true);
+  const [nextTokenId, setNextTokenId] = useState<string>("");
+  const [mintedTokenId, setMintedTokenId] = useState<string | null>(null);
 
-  // Función para obtener el último token ID
-  const fetchLastTokenId = async () => {
-    try {
-      const response = await fetch('/api/test');
-      const data = await response.json();
-      
-      if (response.ok) {
-        const lastId = parseInt(data.tokenId);
-        setTokenId((lastId + 1).toString()); // Usamos el siguiente ID disponible
-      } else {
-        setError("Error al obtener el último token ID");
-      }
-    } catch (err) {
-      setError("Error de conexión con la API");
-    } finally {
-      setFetchingToken(false);
-    }
-  };
-
+  // Carga inicial automática
   useEffect(() => {
-    fetchLastTokenId();
+    const initialize = async () => {
+      try {
+        // 1. Conectar wallet automáticamente
+        const { address } = await kit.getAddress();
+        setPublicKey(address);
+        
+        // 2. Obtener último token ID
+        const response = await fetch('/api/test');
+        const data = await response.json();
+        const lastId = parseInt(data.tokenId);
+        setNextTokenId((lastId + 1).toString());
+      } catch (err) {
+        setError("Conecta tu wallet para comenzar");
+      }
+    };
+    
+    initialize();
   }, []);
 
-  const fetchAddress = async () => {
-    try {
-      setError(null);
-      const { address } = await kit.getAddress();
-      setPublicKey(address);
-    } catch (err) {
-      setError("Error al conectar la wallet");
-      console.error("Error obteniendo dirección:", err);
-    }
-  };
-
   const handleMint = async () => {
-    if (!publicKey) {
-      setError("Wallet no conectada");
-      return;
-    }
-
-    if (!tokenId || isNaN(Number(tokenId))) {
-      setError("ID de token inválido");
-      return;
-    }
+    if (!publicKey || !nextTokenId) return;
 
     setLoading(true);
     setError(null);
-    setHash(null);
-    setStatus(null);
 
     try {
       const account = await server.getAccount(publicKey);
       const networkPassphrase = Networks.TESTNET;
-      
+
       const mintArgs = [
         xdr.ScVal.scvAddress(Address.fromString(publicKey).toScAddress()),
         xdr.ScVal.scvI128(
           new xdr.Int128Parts({
             hi: new xdr.Int64(0),
-            lo: new xdr.Uint64(BigInt(tokenId)),
+            lo: new xdr.Uint64(BigInt(nextTokenId)),
           })
         ),
       ];
 
-      let transaction = new TransactionBuilder(account, {
+      const transaction = new TransactionBuilder(account, {
         fee: "1000000",
         networkPassphrase,
       })
@@ -116,7 +92,7 @@ export function MintNFTStellar() {
 
       const simulateResult = await server.simulateTransaction(transaction);
       if ("error" in simulateResult) {
-        throw new Error(`Simulación fallida: ${simulateResult.error}`);
+        throw new Error(simulateResult.error);
       }
 
       const preparedTx = SorobanRpc.assembleTransaction(transaction, simulateResult).build();
@@ -130,75 +106,61 @@ export function MintNFTStellar() {
       const tx = TransactionBuilder.fromXDR(signedTxXdr, networkPassphrase);
       const txResponse = await server.sendTransaction(tx);
       
-      // Esperamos y actualizamos el ID después del minteo
-      await new Promise(resolve => setTimeout(resolve, 5000));
-      await fetchLastTokenId();
-
-      const finalTx = await server.getTransaction(txResponse.hash);
-      if (finalTx.status !== "SUCCESS") {
-        throw new Error(`Transacción fallida: ${finalTx.status}`);
-      }
-
+      setMintedTokenId(nextTokenId);
       setHash(txResponse.hash);
-      setStatus("SUCCESS");
+      setNextTokenId(""); // Limpiar próximo ID
 
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "Error desconocido";
-      setError(errorMessage);
-      console.error("Error en el minteo:", err);
+      setError(err instanceof Error ? err.message : "Error desconocido");
     } finally {
       setLoading(false);
     }
   };
 
+  if (error) {
+    return (
+      <div className="text-center p-4 bg-red-100 text-red-600 rounded-lg max-w-md mx-auto">
+        {error}
+      </div>
+    );
+  }
+
+  if (mintedTokenId) {
+    return (
+      <div className="text-center space-y-4 max-w-md mx-auto p-4">
+        <div className="bg-green-100 text-green-600 p-3 rounded-lg">
+          <p className="font-bold">¡NFT Minteado!</p>
+          <p>Token ID: {mintedTokenId}</p>
+        </div>
+        
+        {hash && (
+          <a
+            href={`https://stellar.expert/explorer/testnet/tx/${hash}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 hover:underline block"
+          >
+            Ver transacción en Blockchain
+          </a>
+        )}
+      </div>
+    );
+  }
+
   return (
-    <div className="text-center w-full max-w-md mx-auto p-4 space-y-4">
-      {error && <p className="text-red-500 bg-red-100 p-2 rounded-lg">{error}</p>}
-      
-      {!publicKey ? (
-        <Button 
-          onClick={fetchAddress} 
-          disabled={loading || fetchingToken}
-          className="bg-blue-600 hover:bg-blue-700 text-white"
+    <div className="text-center max-w-md mx-auto p-4">
+      {publicKey ? (
+        <Button
+          onClick={handleMint}
+          disabled={loading || !nextTokenId}
+          className="bg-purple-600 hover:bg-purple-700 text-white text-lg py-6 w-full"
         >
-          {loading ? "Conectando..." : "Conectar Wallet"}
+          {loading ? "Procesando..." : "Mintear NFT Ahora"}
         </Button>
       ) : (
-        <div className="space-y-4">
-          <p className="text-sm text-gray-600">
-            Conectado: {publicKey.slice(0, 6)}...{publicKey.slice(-4)}
-          </p>
-
-          <div className="p-3 bg-gray-100 rounded-lg">
-            {fetchingToken ? (
-              <p className="text-gray-500">Cargando próximo ID...</p>
-            ) : (
-              <>
-                <p className="text-sm text-gray-600 text-black">Próximo ID a mintear:</p>
-                <p className="font-bold text-lg text-black">{tokenId}</p>
-              </>
-            )}
-          </div>
-
-          <Button 
-            onClick={handleMint} 
-            disabled={loading || fetchingToken}
-            className="bg-green-600 hover:bg-green-700 text-white w-full"
-          >
-            {loading ? "Minteando..." : "Mintear NFT"}
-          </Button>
+        <div className="bg-gray-100 p-4 rounded-lg">
+          <p className="text-gray-600">Conectando wallet...</p>
         </div>
-      )}
-
-      {hash && (
-        <a 
-          href={`https://stellar.expert/explorer/testnet/tx/${hash}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-600 hover:underline text-sm block mt-2"
-        >
-          Éxito: Ver transacción
-        </a>
       )}
     </div>
   );
