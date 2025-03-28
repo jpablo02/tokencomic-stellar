@@ -18,7 +18,9 @@ import {
   TimeoutInfinite,
 } from "@stellar/stellar-sdk";
 
-const CONTRACT_ID = "CB6SEZLFXCISCXF2ZBGRGI4LR26F2ABP5ELOPBVXQNLQ4IXFYR7PFCWH";
+// const CONTRACT_ID = "CB6SEZLFXCISCXF2ZBGRGI4LR26F2ABP5ELOPBVXQNLQ4IXFYR7PFCWH";
+const CONTRACT_ID = "CCQU6CKNB37243VMZQUF6NAQ5HXHP5SET7FUUSJREZI4SPC5DGY5YIKH"; //con funcion last token id 
+
 const server = new SorobanRpc.Server("https://soroban-testnet.stellar.org/");
 const kit = new StellarWalletsKit({
   network: WalletNetwork.TESTNET,
@@ -123,6 +125,8 @@ export function MintNFTStellar() {
       setLoading(false);
     }
   };
+
+  
 
   const checkTransactionDetails = async () => {
     if (!hash) return;
