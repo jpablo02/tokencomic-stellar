@@ -17,6 +17,7 @@ import {
   scValToNative,
   TimeoutInfinite,
 } from "@stellar/stellar-sdk";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const CONTRACT_ID = "CCQU6CKNB37243VMZQUF6NAQ5HXHP5SET7FUUSJREZI4SPC5DGY5YIKH";
 
@@ -32,19 +33,18 @@ export function MintNFTStellar() {
   const [publicKey, setPublicKey] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [nextTokenId, setNextTokenId] = useState<string>("");
+  const [nextTokenId, setNextTokenId] = useState<string | null>(null);
   const [mintedTokenId, setMintedTokenId] = useState<string | null>(null);
+  const [metadataUrl, setMetadataUrl] = useState<string | null>(null);
 
-  // Carga inicial automática
   useEffect(() => {
     const initialize = async () => {
       try {
-        // 1. Conectar wallet automáticamente
         const { address } = await kit.getAddress();
         setPublicKey(address);
         
-        // 2. Obtener último token ID
-        const response = await fetch('/api/test');
+        // Obtener el último token ID para calcular el siguiente
+        const response = await fetch("/api/test");
         const data = await response.json();
         const lastId = parseInt(data.tokenId);
         setNextTokenId((lastId + 1).toString());
@@ -108,7 +108,7 @@ export function MintNFTStellar() {
       
       setMintedTokenId(nextTokenId);
       setHash(txResponse.hash);
-      setNextTokenId(""); // Limpiar próximo ID
+      setNextTokenId(null);
 
     } catch (err) {
       setError(err instanceof Error ? err.message : "Error desconocido");
@@ -117,39 +117,84 @@ export function MintNFTStellar() {
     }
   };
 
-  if (error) {
-    return (
-      <div className="text-center p-4 bg-red-100 text-red-600 rounded-lg max-w-md mx-auto">
-        {error}
-      </div>
-    );
-  }
+  // ✅ Nueva función: Obtener metadata del NFT
+  const fetchNFTMetadata = async () => {
+    if (!mintedTokenId || !publicKey) return;
 
-  if (mintedTokenId) {
-    return (
-      <div className="text-center space-y-4 max-w-md mx-auto p-4">
-        <div className="bg-green-100 text-green-600 p-3 rounded-lg">
-          <p className="font-bold">¡NFT Minteado!</p>
-          <p>Token ID: {mintedTokenId}</p>
-        </div>
-        
-        {hash && (
-          <a
-            href={`https://stellar.expert/explorer/testnet/tx/${hash}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-600 hover:underline block"
-          >
-            Ver transacción en Blockchain
-          </a>
-        )}
-      </div>
-    );
-  }
+    try {
+      const response = await fetch("/api/owner", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contractId: CONTRACT_ID,
+          tokenId: mintedTokenId,
+          walletAddress: publicKey,
+        }),
+      });
+
+      const data = await response.json();
+      if (data.metadataUrl) {
+        setMetadataUrl(data.metadataUrl);
+      } else {
+        console.error("Error obteniendo metadata:", data.error);
+      }
+    } catch (error) {
+      console.error("Error en la solicitud:", error);
+    }
+  };
+
+  // 📌 Llamar a `fetchNFTMetadata` después de mintear el NFT
+  useEffect(() => {
+    if (mintedTokenId) {
+      fetchNFTMetadata();
+    }
+  }, [mintedTokenId]);
 
   return (
     <div className="text-center max-w-md mx-auto p-4">
-      {publicKey ? (
+      {error && (
+        <div className="text-center p-4 bg-red-100 text-red-600 rounded-lg">
+          {error}
+        </div>
+      )}
+
+      {mintedTokenId ? (
+        <>
+          <div className="bg-green-100 text-green-600 p-3 rounded-lg">
+            <p className="font-bold">¡NFT Minteado!</p>
+            <p>Token ID: {mintedTokenId}</p>
+          </div>
+
+          {hash && (
+            <a
+              href={`https://stellar.expert/explorer/testnet/tx/${hash}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:underline block mt-2"
+            >
+              Ver transacción en Blockchain
+            </a>
+          )}
+
+          {metadataUrl && (
+            <Card className="mt-4">
+              <CardHeader>
+                <CardTitle>Metadata del NFT</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <a
+                  href={metadataUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline block"
+                >
+                  {metadataUrl}
+                </a>
+              </CardContent>
+            </Card>
+          )}
+        </>
+      ) : (
         <Button
           onClick={handleMint}
           disabled={loading || !nextTokenId}
@@ -157,10 +202,6 @@ export function MintNFTStellar() {
         >
           {loading ? "Procesando..." : "Mintear NFT Ahora"}
         </Button>
-      ) : (
-        <div className="bg-gray-100 p-4 rounded-lg">
-          <p className="text-gray-600">Conectando wallet...</p>
-        </div>
       )}
     </div>
   );
