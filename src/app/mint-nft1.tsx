@@ -190,27 +190,27 @@ export function MintNFTStellar() {
     switch (status) {
       case 'preparing':
         return (
-          <div className="flex items-center justify-center gap-2">
+          <div className="flex items-center justify-center gap-2 text-sm">
             <Spinner />
             Preparing Transaction...
           </div>
         );
       case 'signing':
         return (
-          <div className="flex items-center justify-center gap-2">
+          <div className="flex items-center justify-center gap-2 text-sm">
             <Spinner />
             Awaiting Wallet...
           </div>
         );
       case 'minting':
         return (
-          <div className="flex items-center justify-center gap-2">
+          <div className="flex items-center justify-center gap-2 text-sm">
             <Spinner />
             Minting NFT...
           </div>
         );
       default:
-        return "Save Bag (Mint)";
+        return <span className="text-xs">Save Bag (Mint)</span>;
     }
   };
 
@@ -224,37 +224,37 @@ export function MintNFTStellar() {
 
       {mintedTokenId ? (
         <>
-          <div className="bg-green-100 text-green-600 p-3 rounded-lg">
+          <div className="bg-gray-900 text-yellow-600 p-2 rounded-lg text-sm">
             <p className="font-bold">¡You have the piece!</p>
             <p>Token ID: {mintedTokenId}</p>
-          </div>
 
-          {hash && (
+            {hash && (
             <a
               href={`https://stellar.expert/explorer/testnet/tx/${hash}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-600 hover:underline block mt-2"
+              className="text-blue-600 hover:underline block mt-2 text-sm"
             >
               Blockchain Transaction
             </a>
           )}
+          </div>
+
+          
 
           <Dialog>
             <DialogTrigger asChild>
-              <Button className="mt-4 bg-purple-600 hover:bg-purple-700 text-white">
+              <Button className="mt-4 bg-purple-600 hover:bg-purple-700 text-white text-sm">
                 Open Bag
               </Button>
             </DialogTrigger>
 
-            <DialogContent className="max-w-[90vw] md:max-w-[500px] p-6">
-              <div className="relative">
-                <DialogClose className="absolute top-2 right-2 p-1 rounded-full hover:bg-gray-100">
-                  <X className="h-5 w-5 text-gray-500" />
-                </DialogClose>
+            <DialogContent className="max-w-[90vw] bg-gray-900 md:max-w-[500px] p-6">
+              <div className="relative bg-gray-600">
+                
 
                 {metadata && (
-                  <Card className="bg-gradient-to-br from-purple-50 to-blue-50 shadow-lg border-0">
+                  <Card className="bg-gradient-to-br from-purple-50 to-blue-50 shadow-lg border-0 bg-gray-600">
                     <CardHeader className="pb-3">
                       <CardTitle className="text-3xl font-bold text-purple-600">
                         {metadata.name}
