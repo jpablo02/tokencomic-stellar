@@ -36,6 +36,7 @@ export function MintNFTStellar() {
   const [nextTokenId, setNextTokenId] = useState<string | null>(null);
   const [mintedTokenId, setMintedTokenId] = useState<string | null>(null);
   const [metadataUrl, setMetadataUrl] = useState<string | null>(null);
+  const [tokenUri, setTokenUri] = useState<string | null>(null);
 
   useEffect(() => {
     const initialize = async () => {
@@ -43,7 +44,6 @@ export function MintNFTStellar() {
         const { address } = await kit.getAddress();
         setPublicKey(address);
         
-        // Obtener el último token ID para calcular el siguiente
         const response = await fetch("/api/test");
         const data = await response.json();
         const lastId = parseInt(data.tokenId);
@@ -109,7 +109,6 @@ export function MintNFTStellar() {
       setMintedTokenId(nextTokenId);
       setHash(txResponse.hash);
       setNextTokenId(null);
-
     } catch (err) {
       setError(err instanceof Error ? err.message : "Error desconocido");
     } finally {
@@ -117,36 +116,26 @@ export function MintNFTStellar() {
     }
   };
 
-  // ✅ Nueva función: Obtener metadata del NFT
-  const fetchNFTMetadata = async () => {
-    if (!mintedTokenId || !publicKey) return;
+  const fetchTokenUri = async () => {
+    if (!mintedTokenId) return;
 
     try {
-      const response = await fetch("/api/owner", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contractId: CONTRACT_ID,
-          tokenId: mintedTokenId,
-          walletAddress: publicKey,
-        }),
-      });
-
+      const response = await fetch("/api/uri");
       const data = await response.json();
-      if (data.metadataUrl) {
-        setMetadataUrl(data.metadataUrl);
+      
+      if (data.tokenUri) {
+        setTokenUri(data.tokenUri);
       } else {
-        console.error("Error obteniendo metadata:", data.error);
+        console.error("Error obteniendo token URI:", data.error);
       }
     } catch (error) {
       console.error("Error en la solicitud:", error);
     }
   };
 
-  // 📌 Llamar a `fetchNFTMetadata` después de mintear el NFT
   useEffect(() => {
     if (mintedTokenId) {
-      fetchNFTMetadata();
+      fetchTokenUri();
     }
   }, [mintedTokenId]);
 
@@ -176,19 +165,19 @@ export function MintNFTStellar() {
             </a>
           )}
 
-          {metadataUrl && (
+          {tokenUri && (
             <Card className="mt-4">
               <CardHeader>
-                <CardTitle>Metadata del NFT</CardTitle>
+                <CardTitle>Token URI</CardTitle>
               </CardHeader>
               <CardContent>
                 <a
-                  href={metadataUrl}
+                  href={tokenUri}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-600 hover:underline block"
                 >
-                  {metadataUrl}
+                  {tokenUri}
                 </a>
               </CardContent>
             </Card>
