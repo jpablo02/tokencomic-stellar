@@ -18,6 +18,8 @@ import {
   TimeoutInfinite,
 } from "@stellar/stellar-sdk";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogTrigger, DialogContent, DialogClose } from "@/components/ui/dialog";
+import { X } from "lucide-react";
 
 const CONTRACT_ID = "CCQU6CKNB37243VMZQUF6NAQ5HXHP5SET7FUUSJREZI4SPC5DGY5YIKH";
 
@@ -182,45 +184,57 @@ export function MintNFTStellar() {
             </a>
           )}
 
-{metadata && (
-  <> {/* Fragmento para agrupar múltiples elementos */}
-    
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button className="mt-4 bg-purple-600 hover:bg-purple-700 text-white">
+                Ver tu NFT
+              </Button>
+            </DialogTrigger>
 
-    {/* Nuevo Card para la imagen - Añadir aquí */}
-    <Card className="mt-4 bg-gradient-to-br from-purple-50 to-blue-50 shadow-lg">
-  <CardHeader className="pb-3">
-    <CardTitle className="text-3xl font-bold text-purple-600">
-      {metadata.name} {/* Nombre del NFT */}
-    </CardTitle>
-  </CardHeader>
+            <DialogContent className="max-w-[90vw] md:max-w-[500px] p-6">
+              <div className="relative">
+                <DialogClose className="absolute top-2 right-2 p-1 rounded-full hover:bg-gray-100">
+                  <X className="h-5 w-5 text-gray-500" />
+                </DialogClose>
 
-  <div className="px-6">
-    <div className="inline-block bg-purple-100 px-4 py-2 rounded-full mb-4">
-      <h1 className="text-sm font-mono font-semibold text-purple-800">
-        #{metadata.code} {/* Código del NFT */}
-      </h1>
-    </div>
-  </div>
+                {metadata && (
+                  <Card className="bg-gradient-to-br from-purple-50 to-blue-50 shadow-lg border-0">
+                    <CardHeader className="pb-3">
+                      <CardTitle className="text-3xl font-bold text-purple-600">
+                        {metadata.name}
+                      </CardTitle>
+                    </CardHeader>
 
-  <CardContent className="space-y-4">
-    <div className="group relative w-full overflow-hidden rounded-xl border-2 border-purple-100">
-      <img 
-        src={`https://ipfs.io/ipfs/${metadata.url.replace('ipfs://', '')}`} /* URL de la imagen */
-        alt="NFT Preview" 
-        className="w-full h-64 object-contain transform transition-transform duration-300 group-hover:scale-105"
-      />
-    </div>
-    
-    <div className="text-center px-4 py-3 bg-white rounded-lg border border-purple-50">
-      <p className="text-gray-600 text-sm leading-relaxed">
-        {metadata.description} {/* Descripción del NFT */}
-      </p>
-    </div>
-  </CardContent>
-</Card>
-{console.log("Metadatos del NFT:", metadata)}
-  </>
-)}
+                    <div className="px-6">
+                      <div className="inline-block bg-purple-100 px-4 py-2 rounded-full mb-4">
+                        <h1 className="text-sm font-mono font-semibold text-purple-800">
+                          #{metadata.code}
+                        </h1>
+                      </div>
+                    </div>
+
+                    <CardContent className="space-y-4">
+                      <div className="group relative w-full overflow-hidden rounded-xl border-2 border-purple-100">
+                        <img 
+                          src={`https://ipfs.io/ipfs/${metadata.url.replace('ipfs://', '')}`}
+                          alt="NFT Preview" 
+                          className="w-full h-64 object-contain transform transition-transform duration-300 group-hover:scale-105"
+                        />
+                      </div>
+                      
+                      <div className="text-center px-4 py-3 bg-white rounded-lg border border-purple-50">
+                        <p className="text-gray-600 text-sm leading-relaxed">
+                          {metadata.description}
+                        </p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+              </div>
+            </DialogContent>
+          </Dialog>
+
+          {console.log("Metadatos del NFT:", metadata)}
         </>
       ) : (
         <Button
