@@ -10,7 +10,7 @@ export const ConnectButtons = () => {
           <p className="text-yellow-400 text-sm">Connected: {walletAddress.slice(0, 4)}...{walletAddress.slice(-4)}</p>
           <button
             onClick={disconnectWallet}
-            className="bg-gray-700 hover:bg-orange-600 text-white font-semibold py-1 px-4 rounded-lg text-sm"
+            className="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-1 px-4 rounded-lg text-sm"
           >
             Disconnect
           </button>
