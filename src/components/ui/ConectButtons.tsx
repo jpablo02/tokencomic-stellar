@@ -4,7 +4,7 @@ export const ConnectButtons = () => {
   const { walletAddress, connectWallet, disconnectWallet } = useWallet();
 
   return (
-    <div className="relative flex flex-col items-center space-y-2 p-4  rounded-lg shadow-md text-white">
+    <div className="relative flex flex-col items-center space-y-2 p-4  rounded-lg  text-white">
       {walletAddress ? (
         <>
           <p className="text-yellow-400 text-sm">Connected: {walletAddress.slice(0, 4)}...{walletAddress.slice(-4)}</p>
