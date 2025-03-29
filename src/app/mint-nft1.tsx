@@ -129,10 +129,10 @@ export function MintNFTStellar() {
       if (data.tokenUri) {
         setTokenUri(data.tokenUri);
       } else {
-        console.error("Error obteniendo token URI:", data.error);
+        console.error("Error token URI:", data.error);
       }
     } catch (error) {
-      console.error("Error en la solicitud:", error);
+      console.error("Error asking:", error);
     }
   };
 
@@ -170,7 +170,7 @@ export function MintNFTStellar() {
       {mintedTokenId ? (
         <>
           <div className="bg-green-100 text-green-600 p-3 rounded-lg">
-            <p className="font-bold">¡NFT Minteado!</p>
+            <p className="font-bold">¡NFT Minted!</p>
             <p>Token ID: {mintedTokenId}</p>
           </div>
 
@@ -181,14 +181,14 @@ export function MintNFTStellar() {
               rel="noopener noreferrer"
               className="text-blue-600 hover:underline block mt-2"
             >
-              Ver transacción en Blockchain
+              Blockchain Transaction
             </a>
           )}
 
           <Dialog>
             <DialogTrigger asChild>
               <Button className="mt-4 bg-purple-600 hover:bg-purple-700 text-white">
-                Ver tu NFT
+                Open Bag
               </Button>
             </DialogTrigger>
 

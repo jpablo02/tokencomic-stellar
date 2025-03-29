@@ -38,7 +38,7 @@ export async function GET() {
       });
     });
     
-  } catch (error) {
+  } catch (error:any) {
     console.error('Unexpected error:', error);
     return NextResponse.json(
       { error: "Internal server error", message: error.message },

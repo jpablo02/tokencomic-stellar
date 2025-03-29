@@ -12,7 +12,7 @@ export const ConnectButtons = () => {
             onClick={disconnectWallet}
             className="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-4 rounded-lg"
           >
-            Desconectar
+            Disconnect
           </button>
         </>
       ) : (
@@ -20,7 +20,7 @@ export const ConnectButtons = () => {
           onClick={connectWallet}
           className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-4 rounded-lg"
         >
-          Conectar Wallet
+          Connect
         </button>
       )}
     </div>
