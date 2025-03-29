@@ -254,7 +254,7 @@ export function MintNFTStellar() {
                 
 
                 {metadata && (
-                  <Card className="bg-gradient-to-br from-purple-50 to-blue-50 shadow-lg border-0 bg-gray-600">
+                  <Card className=" from-purple-50 to-blue-50 shadow-lg border-0 bg-gray-300">
                     <CardHeader className="pb-3">
                       <CardTitle className="text-3xl font-bold text-purple-600">
                         {metadata.name}
@@ -270,7 +270,7 @@ export function MintNFTStellar() {
                     </div>
 
                     <CardContent className="space-y-4">
-                      <div className="group relative w-full overflow-hidden rounded-xl border-2 border-purple-100">
+                      <div className="group relative w-full overflow-hidden rounded-xl border-0 border-purple-100">
                         <img 
                           src={`https://ipfs.io/ipfs/${metadata.url.replace('ipfs://', '')}`}
                           alt="NFT Preview" 
@@ -278,8 +278,8 @@ export function MintNFTStellar() {
                         />
                       </div>
                       
-                      <div className="text-center px-4 py-3 bg-white rounded-lg border border-purple-50">
-                        <p className="text-gray-600 text-sm leading-relaxed">
+                      <div className="text-center px-4 py-3 bg-gray-400 rounded-lg border border-purple-50">
+                        <p className="text-gray-800 text-sm leading-relaxed">
                           {metadata.description}
                         </p>
                       </div>
