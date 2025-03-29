@@ -23,7 +23,6 @@ import { X } from "lucide-react";
 
 const CONTRACT_ID = "CD4B7WGOPIY6GMZI2F22FICQJSD4COVJHBD46X4AMQ7TWTZLZM6Z3R2E";
 
-//const CONTRACT_ID = "CCQU6CKNB37243VMZQUF6NAQ5HXHP5SET7FUUSJREZI4SPC5DGY5YIKH";
 const server = new SorobanRpc.Server("https://soroban-testnet.stellar.org/");
 const kit = new StellarWalletsKit({
   network: WalletNetwork.TESTNET,
@@ -31,15 +30,39 @@ const kit = new StellarWalletsKit({
   modules: allowAllModules(),
 });
 
+// Componente Spinner reutilizable
+const Spinner = () => (
+  <svg 
+    className="animate-spin h-5 w-5 text-white" 
+    xmlns="http://www.w3.org/2000/svg" 
+    fill="none" 
+    viewBox="0 0 24 24"
+  >
+    <circle 
+      className="opacity-25" 
+      cx="12" 
+      cy="12" 
+      r="10" 
+      stroke="currentColor" 
+      strokeWidth="4"
+    ></circle>
+    <path 
+      className="opacity-75" 
+      fill="currentColor" 
+      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+    ></path>
+  </svg>
+);
+
 export function MintNFTStellar() {
   const [hash, setHash] = useState<string | null>(null);
   const [publicKey, setPublicKey] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [nextTokenId, setNextTokenId] = useState<string | null>(null);
   const [mintedTokenId, setMintedTokenId] = useState<string | null>(null);
   const [tokenUri, setTokenUri] = useState<string | null>(null);
   const [metadata, setMetadata] = useState<any>(null);
+  const [status, setStatus] = useState<'idle' | 'preparing' | 'signing' | 'minting' | 'success'>('idle');
 
   useEffect(() => {
     const initialize = async () => {
@@ -62,10 +85,10 @@ export function MintNFTStellar() {
   const handleMint = async () => {
     if (!publicKey || !nextTokenId) return;
 
-    setLoading(true);
-    setError(null);
-
     try {
+      setStatus('preparing');
+      setError(null);
+
       const account = await server.getAccount(publicKey);
       const networkPassphrase = Networks.TESTNET;
 
@@ -79,6 +102,7 @@ export function MintNFTStellar() {
         ),
       ];
 
+      setStatus('preparing');
       const transaction = new TransactionBuilder(account, {
         fee: "1000000",
         networkPassphrase,
@@ -93,11 +117,13 @@ export function MintNFTStellar() {
         .setTimeout(TimeoutInfinite)
         .build();
 
+      setStatus('preparing');
       const simulateResult = await server.simulateTransaction(transaction);
       if ("error" in simulateResult) {
         throw new Error(simulateResult.error);
       }
 
+      setStatus('signing');
       const preparedTx = SorobanRpc.assembleTransaction(transaction, simulateResult).build();
       const { signedTxXdr } = await kit.signTransaction(preparedTx.toXDR(), {
         address: publicKey,
@@ -106,16 +132,17 @@ export function MintNFTStellar() {
 
       if (!signedTxXdr) throw new Error("Firma fallida");
 
+      setStatus('minting');
       const tx = TransactionBuilder.fromXDR(signedTxXdr, networkPassphrase);
       const txResponse = await server.sendTransaction(tx);
       
       setMintedTokenId(nextTokenId);
       setHash(txResponse.hash);
       setNextTokenId(null);
+      setStatus('success');
     } catch (err) {
       setError(err instanceof Error ? err.message : "Error desconocido");
-    } finally {
-      setLoading(false);
+      setStatus('idle');
     }
   };
 
@@ -159,10 +186,38 @@ export function MintNFTStellar() {
     }
   }, [mintedTokenId]);
 
+  const getButtonContent = () => {
+    switch (status) {
+      case 'preparing':
+        return (
+          <div className="flex items-center justify-center gap-2">
+            <Spinner />
+            Preparing Transaction...
+          </div>
+        );
+      case 'signing':
+        return (
+          <div className="flex items-center justify-center gap-2">
+            <Spinner />
+            Awaiting Wallet...
+          </div>
+        );
+      case 'minting':
+        return (
+          <div className="flex items-center justify-center gap-2">
+            <Spinner />
+            Minting NFT...
+          </div>
+        );
+      default:
+        return "Save Bag (Mint)";
+    }
+  };
+
   return (
     <div className="text-center max-w-md mx-auto p-4">
       {error && (
-        <div className="text-center p-4 bg-red-100 text-red-600 rounded-lg">
+        <div className="text-center p-4 bg-red-100 text-red-600 rounded-lg mb-4">
           {error}
         </div>
       )}
@@ -234,16 +289,18 @@ export function MintNFTStellar() {
               </div>
             </DialogContent>
           </Dialog>
-
-          {console.log("Metadatos del NFT:", metadata)}
         </>
       ) : (
         <Button
           onClick={handleMint}
-          disabled={loading || !nextTokenId}
-          className="bg-purple-600 hover:bg-purple-700 text-white text-lg py-6 w-full"
+          disabled={status !== 'idle'}
+          className="bg-purple-600 hover:bg-purple-700 text-white text-lg py-6 w-full transition-all"
+          style={{
+            cursor: status !== 'idle' ? 'wait' : 'pointer',
+            opacity: status !== 'idle' ? 0.7 : 1
+          }}
         >
-          {loading ? "Loading..." : "Save Bag (Mint)"}
+          {getButtonContent()}
         </Button>
       )}
     </div>
