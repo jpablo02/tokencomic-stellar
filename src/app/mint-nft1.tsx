@@ -182,18 +182,36 @@ export function MintNFTStellar() {
             </a>
           )}
 
-          {metadata && (
-            <Card className="mt-4">
-              <CardHeader>
-                <CardTitle>Metadatos del NFT</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <pre className="whitespace-pre-wrap break-words text-sm">
-                  {JSON.stringify(metadata, null, 2)}
-                </pre>
-              </CardContent>
-            </Card>
-          )}
+{metadata && (
+  <> {/* Fragmento para agrupar múltiples elementos */}
+    <Card className="mt-4">
+      <CardHeader>
+        <CardTitle>Metadatos del NFT</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <pre className="whitespace-pre-wrap break-words text-sm">
+          {JSON.stringify(metadata, null, 2)}
+        </pre>
+      </CardContent>
+    </Card>
+
+    {/* Nuevo Card para la imagen - Añadir aquí */}
+    <Card className="mt-4">
+      <CardHeader>
+        <CardTitle>Imagen del NFT</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="w-full overflow-hidden rounded-lg">
+          <img 
+            src="https://placehold.co/400x200"
+            alt="NFT Preview" 
+            className="w-full h-auto rounded-lg"
+          />
+        </div>
+      </CardContent>
+    </Card>
+  </>
+)}
         </>
       ) : (
         <Button
