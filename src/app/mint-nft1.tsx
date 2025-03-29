@@ -35,8 +35,8 @@ export function MintNFTStellar() {
   const [error, setError] = useState<string | null>(null);
   const [nextTokenId, setNextTokenId] = useState<string | null>(null);
   const [mintedTokenId, setMintedTokenId] = useState<string | null>(null);
-  const [metadataUrl, setMetadataUrl] = useState<string | null>(null);
   const [tokenUri, setTokenUri] = useState<string | null>(null);
+  const [metadata, setMetadata] = useState<any>(null);
 
   useEffect(() => {
     const initialize = async () => {
@@ -134,6 +134,23 @@ export function MintNFTStellar() {
   };
 
   useEffect(() => {
+    const fetchMetadata = async () => {
+      if (!tokenUri) return;
+      
+      try {
+        const response = await fetch(tokenUri);
+        const data = await response.json();
+        setMetadata(data);
+      } catch (error) {
+        console.error("Error fetching metadata:", error);
+        setError("Error al cargar metadatos");
+      }
+    };
+
+    fetchMetadata();
+  }, [tokenUri]);
+
+  useEffect(() => {
     if (mintedTokenId) {
       fetchTokenUri();
     }
@@ -165,20 +182,15 @@ export function MintNFTStellar() {
             </a>
           )}
 
-          {tokenUri && (
+          {metadata && (
             <Card className="mt-4">
               <CardHeader>
-                <CardTitle>Token URI</CardTitle>
+                <CardTitle>Metadatos del NFT</CardTitle>
               </CardHeader>
               <CardContent>
-                <a
-                  href={tokenUri}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline block"
-                >
-                  {tokenUri}
-                </a>
+                <pre className="whitespace-pre-wrap break-words text-sm">
+                  {JSON.stringify(metadata, null, 2)}
+                </pre>
               </CardContent>
             </Card>
           )}
