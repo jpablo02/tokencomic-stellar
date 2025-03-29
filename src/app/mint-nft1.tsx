@@ -196,20 +196,37 @@ export function MintNFTStellar() {
     </Card>
 
     {/* Nuevo Card para la imagen - Añadir aquí */}
-    <Card className="mt-4">
-      <CardHeader>
-        <CardTitle>Imagen del NFT</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="w-full overflow-hidden rounded-lg">
-          <img 
-            src="https://placehold.co/400x200"
-            alt="NFT Preview" 
-            className="w-full h-auto rounded-lg"
-          />
-        </div>
-      </CardContent>
-    </Card>
+    <Card className="mt-4 bg-gradient-to-br from-purple-50 to-blue-50 shadow-lg">
+  <CardHeader className="pb-3">
+    <CardTitle className="text-3xl font-bold text-purple-600">
+      {metadata.name} {/* Nombre del NFT */}
+    </CardTitle>
+  </CardHeader>
+
+  <div className="px-6">
+    <div className="inline-block bg-purple-100 px-4 py-2 rounded-full mb-4">
+      <h1 className="text-sm font-mono font-semibold text-purple-800">
+        #{metadata.code} {/* Código del NFT */}
+      </h1>
+    </div>
+  </div>
+
+  <CardContent className="space-y-4">
+    <div className="group relative w-full overflow-hidden rounded-xl border-2 border-purple-100">
+      <img 
+        src={`https://ipfs.io/ipfs/${metadata.url.replace('ipfs://', '')}`} /* URL de la imagen */
+        alt="NFT Preview" 
+        className="w-full h-64 object-contain transform transition-transform duration-300 group-hover:scale-105"
+      />
+    </div>
+    
+    <div className="text-center px-4 py-3 bg-white rounded-lg border border-purple-50">
+      <p className="text-gray-600 text-sm leading-relaxed">
+        {metadata.description} {/* Descripción del NFT */}
+      </p>
+    </div>
+  </CardContent>
+</Card>
   </>
 )}
         </>
