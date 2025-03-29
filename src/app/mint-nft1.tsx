@@ -184,16 +184,7 @@ export function MintNFTStellar() {
 
 {metadata && (
   <> {/* Fragmento para agrupar múltiples elementos */}
-    <Card className="mt-4">
-      <CardHeader>
-        <CardTitle>Metadatos del NFT</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <pre className="whitespace-pre-wrap break-words text-sm">
-          {JSON.stringify(metadata, null, 2)}
-        </pre>
-      </CardContent>
-    </Card>
+    
 
     {/* Nuevo Card para la imagen - Añadir aquí */}
     <Card className="mt-4 bg-gradient-to-br from-purple-50 to-blue-50 shadow-lg">
@@ -227,6 +218,7 @@ export function MintNFTStellar() {
     </div>
   </CardContent>
 </Card>
+{console.log("Metadatos del NFT:", metadata)}
   </>
 )}
         </>
