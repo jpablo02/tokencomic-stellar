@@ -170,7 +170,7 @@ export function MintNFTStellar() {
       {mintedTokenId ? (
         <>
           <div className="bg-green-100 text-green-600 p-3 rounded-lg">
-            <p className="font-bold">¡NFT Minted!</p>
+            <p className="font-bold">¡You have the piece!</p>
             <p>Token ID: {mintedTokenId}</p>
           </div>
 
@@ -243,7 +243,7 @@ export function MintNFTStellar() {
           disabled={loading || !nextTokenId}
           className="bg-purple-600 hover:bg-purple-700 text-white text-lg py-6 w-full"
         >
-          {loading ? "Procesando..." : "Mintear NFT Ahora"}
+          {loading ? "Loading..." : "Save Bag (Mint)"}
         </Button>
       )}
     </div>
