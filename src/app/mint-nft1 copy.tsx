@@ -12,7 +12,7 @@ import {
 } from "@creit.tech/stellar-wallets-kit";
 import { Button } from "@/components/ui/button";
 import {
-  SorobanRpc,
+ 
   TransactionBuilder,
   Networks,
   Operation,
@@ -22,6 +22,8 @@ import {
   scValToNative,
   TimeoutInfinite,
 } from "@stellar/stellar-sdk";
+import StellarSdk from "@stellar/stellar-sdk";
+const SorobanRpc = StellarSdk.SorobanRpc;
 
 // const CONTRACT_ID = "CB6SEZLFXCISCXF2ZBGRGI4LR26F2ABP5ELOPBVXQNLQ4IXFYR7PFCWH";
 const CONTRACT_ID = "CCTNCAV6UK5NRUOGG4KFVUJENSFWQITGJF4TPHETWZAWAEJDSNDQ6B7W"; //con funcion last token id 

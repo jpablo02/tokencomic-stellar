@@ -8,7 +8,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "**.ipfs.dweb.link" // Usamos comodín para todos los subdominios IPFS
+        hostname: "**.ipfs.dweb.link"
       },
       {
         protocol: "https",
@@ -17,10 +17,18 @@ const nextConfig = {
     ],
   },
   reactStrictMode: true,
-  // Agrega esto para el error de módulos ESM
-  experimental: {
-    esmExternals: 'loose' // o 'true' si 'loose' no funciona
+  // Nueva configuración para paquetes externos
+  serverExternalPackages: [
+    'sodium-native',
+    '@stellar/stellar-sdk',
+    'require-addon'
+  ],
+  webpack: (config) => {
+    config.externals.push({
+      'sodium-native': 'commonjs sodium-native'
+    });
+    return config;
   }
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

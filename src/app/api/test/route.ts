@@ -3,8 +3,8 @@ import { exec } from 'child_process';
 
 export async function GET() {
   try {
-    const contractId = process.env.NEXT_PUBLIC_CONTRACT_ID;
-    const sourceAccount = process.env.SOURCE_ACCOUNT;
+    const contractId = "CD4B7WGOPIY6GMZI2F22FICQJSD4COVJHBD46X4AMQ7TWTZLZM6Z3R2E";
+    const sourceAccount = "GDQP2KPQGKSXNEICFJKG5M5VVD7HLDXKPQJWLG4NADSVAR2GCD5UFKJT";
     const network = 'testnet';
 
     // Validación de variables de entorno
