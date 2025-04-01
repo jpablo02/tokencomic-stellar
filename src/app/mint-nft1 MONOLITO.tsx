@@ -133,10 +133,16 @@ export function MintNFTStellar() {
     try {
       const sourceAccount = await server.getAccount(publicKey!);
       const networkPassphrase = Networks.TESTNET;
-  
-      // Asumiendo que el contrato espera u32 (ajusta según necesidad)
-      const args: never[] = [];
-  
+
+      const args = [
+        xdr.ScVal.scvI128(
+          new xdr.Int128Parts({
+            hi: new xdr.Int64(0),
+            lo: new xdr.Uint64(BigInt(tokenId)),
+          })
+        ),
+      ];
+
       const transaction = new TransactionBuilder(sourceAccount, {
         fee: "1000000",
         networkPassphrase,
@@ -150,13 +156,13 @@ export function MintNFTStellar() {
         )
         .setTimeout(0)
         .build();
-  
+
       const simulateResponse = await server.simulateTransaction(transaction);
-  
+
       if (SorobanRpc.Api.isSimulationError(simulateResponse)) {
         throw new Error(simulateResponse.error);
       }
-  
+
       const result = scValToNative(simulateResponse.result!.retval);
       if (typeof result !== "string") throw new Error("Invalid token URI format");
       return result;
@@ -165,6 +171,7 @@ export function MintNFTStellar() {
       throw error;
     }
   };
+
 
 
   useEffect(() => {

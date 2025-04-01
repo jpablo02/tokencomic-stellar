@@ -1,47 +1,75 @@
 import { NextResponse } from 'next/server';
-import { exec } from 'child_process';
+import {
+  SorobanRpc,
+  TransactionBuilder,
+  Networks,
+  Operation,
+  scValToNative,
+  xdr,
+} from "@stellar/stellar-sdk";
+
+const CONTRACT_ID = "CD4B7WGOPIY6GMZI2F22FICQJSD4COVJHBD46X4AMQ7TWTZLZM6Z3R2E";
+const SOURCE_ACCOUNT = "GDQP2KPQGKSXNEICFJKG5M5VVD7HLDXKPQJWLG4NADSVAR2GCD5UFKJT";
+const server = new SorobanRpc.Server("https://soroban-testnet.stellar.org/");
+
+async function getTokenUri(): Promise<{ tokenUri: string }> {
+  try {
+    const networkPassphrase = Networks.TESTNET;
+    const sourceAccount = await server.getAccount(SOURCE_ACCOUNT);
+
+    // Construir transacción de lectura
+    const transaction = new TransactionBuilder(sourceAccount, {
+      fee: "1000000",
+      networkPassphrase,
+    })
+      .addOperation(
+        Operation.invokeContractFunction({
+          contract: CONTRACT_ID,
+          function: "token_uri",
+          args: [],
+        })
+      )
+      .setTimeout(0)
+      .build();
+
+    // Simular y obtener resultado
+    const simulateResponse = await server.simulateTransaction(transaction);
+    
+    if (SorobanRpc.Api.isSimulationError(simulateResponse)) {
+      throw new Error(simulateResponse.error);
+    }
+    
+    if (!simulateResponse.result) {
+      throw new Error("No result in simulation response");
+    }
+
+    // Decodificar el valor SCVal a string
+    const result = scValToNative(simulateResponse.result.retval);
+    
+    if (typeof result !== "string") {
+      throw new Error("Invalid token URI format");
+    }
+
+    return { tokenUri: result };
+
+  } catch (error) {
+    console.error("Error fetching token URI:", error);
+    throw new Error(error instanceof Error ? error.message : "Unknown error");
+  }
+}
 
 export async function GET() {
   try {
-    const contractId = "CD4B7WGOPIY6GMZI2F22FICQJSD4COVJHBD46X4AMQ7TWTZLZM6Z3R2E";
-    const sourceAccount = "GDQP2KPQGKSXNEICFJKG5M5VVD7HLDXKPQJWLG4NADSVAR2GCD5UFKJT";
-    const network = 'testnet';
-
-    // Validación de variables de entorno
-    if (!contractId || !sourceAccount) {
-      return NextResponse.json(
-        { error: "Missing environment variables" },
-        { status: 500 }
-      );
-    }
-
-    const command = `soroban contract invoke \
-      --id ${contractId} \
-      --network ${network} \
-      --source-account ${sourceAccount} \
-      -- token_uri`;
-
-    return await new Promise<NextResponse>((resolve) => {
-      exec(command, (error, stdout, stderr) => {
-        if (error) {
-          console.error('Execution error:', { error, stderr });
-          resolve(
-            NextResponse.json(
-              { error: "Command failed", details: stderr },
-              { status: 500 }
-            )
-          );
-        } else {
-          const result = stdout.trim().replace(/"/g, '');
-          resolve(NextResponse.json({ tokenUri: result }));
-        }
-      });
-    });
+    const { tokenUri } = await getTokenUri();
+    return NextResponse.json({ tokenUri });
     
-  } catch (error:any) {
-    console.error('Unexpected error:', error);
+  } catch (error: any) {
     return NextResponse.json(
-      { error: "Internal server error", message: error.message },
+      { 
+        error: "Error fetching token URI",
+        message: error.message,
+        stack: process.env.NODE_ENV === "development" ? error.stack : undefined
+      },
       { status: 500 }
     );
   }
