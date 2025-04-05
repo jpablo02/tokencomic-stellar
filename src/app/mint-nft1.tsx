@@ -231,7 +231,7 @@ export function MintNFTStellar() {
         networkPassphrase,
       });
 
-      if (!signedTxXdr) throw new Error("Firma fallida");
+      if (!signedTxXdr) throw new Error("Sign failed");
 
       setStatus('minting');
       const tx = TransactionBuilder.fromXDR(signedTxXdr, networkPassphrase);
@@ -242,7 +242,7 @@ export function MintNFTStellar() {
       setNextTokenId(null);
       setStatus('success');
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Error desconocido");
+      setError(err instanceof Error ? err.message : "Unkown Error");
       setStatus('idle');
     }
   };
@@ -250,18 +250,22 @@ export function MintNFTStellar() {
   const getButtonContent = () => {
     switch (status) {
       case "preparing":
-        return <><Spinner /> Preparando...</>;
+        return <><Spinner /> Minting...</>;
       case "signing":
-        return <><Spinner /> Firmando...</>;
+        return <><Spinner /> Minting...</>;
       case "minting":
-        return <><Spinner /> Minteando...</>;
+        return <><Spinner /> Minting...</>;
       case "success":
-        return "¡NFT Minteado!";
-      default:
-        return "Mintear NFT";
-    }
+        return "¡NFT Minted!";
+        default:
+          return (
+            <div style={{ lineHeight: "1.2" }}>
+              <div>Save Bag</div>
+              <div style={{ fontSize: "0.6em" }}>(mint nft)</div>
+            </div>
+          );
+      }
   };
-
   return (
     <div className="text-center max-w-md mx-auto p-4">
       {error && (
@@ -291,7 +295,7 @@ export function MintNFTStellar() {
           <Dialog>
             <DialogTrigger asChild>
               <Button className="mt-4 bg-purple-600 hover:bg-purple-700 text-white text-sm">
-                Save Bag
+                Open Bag
               </Button>
             </DialogTrigger>
 
